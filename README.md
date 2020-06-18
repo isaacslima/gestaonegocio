@@ -1,2 +1,27 @@
 # gestaonegocio
-web app para gestão de clientes, cadastro de serviços, entradas e saídas.
+
+Web app to manage clients, services, receipts and outgoings.
+
+Product Backlog.
+
+Dashboard to show number of clientes, next birthdays clients of 30 days, provisioning of receipts and outgoings of the months.
+
+![Image](/dashboard.png)
+
+Menu like drawer who user navigate to the functionality
+
+![Image](/menu.png)
+
+
+CRUD Clients
+
+CRUD Services
+
+CRUD Receipts
+
+CRUD Outgoings
+
+CRU User and permissions.
+
+
+
