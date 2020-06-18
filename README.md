@@ -8,7 +8,7 @@ Dashboard to show number of clientes, next birthdays clients of 30 days, provisi
 
 ![Image](/dashboard.png)
 
-Menu like drawer who user navigate to the functionality
+Menu like drawer who user navigate to the functionalities
 
 ![Image](/menu.png)
 
