@@ -1,24 +1,27 @@
 # gestaonegocio
 
-## Project setup
-```
-npm install
-```
+Web app to manage clients, services, receipts and outgoings.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Product Backlog.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+Dashboard to show number of clientes, next birthdays clients of 30 days, provisioning of receipts and outgoings of the months.
 
-### Lints and fixes files
-```
-npm run lint
-```
+![Image](/dashboard.png)
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Menu like drawer who user navigate to the functionalities
+
+![Image](/menu.png)
+
+
+CRUD Clients
+
+CRUD Services
+
+CRUD Receipts
+
+CRUD Outgoings
+
+CRU User and permissions.
+
+
+
