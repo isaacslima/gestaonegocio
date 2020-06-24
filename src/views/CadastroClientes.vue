@@ -65,3 +65,59 @@
     </div>
   </div>
 </template>
+
+<script>
+import Vue from 'vue';
+import Storage from 'vue-web-storage';
+import { clientesRef } from '../firebase';
+
+Vue.use(Storage);
+
+export default {
+  firebase: {
+    clientes: clientesRef,
+  },
+  data: () => ({
+    search: '',
+    pagination: {},
+    dialog: false,
+    pagina: 0,
+    keyExclusao: false,
+    keys: [],
+    toggle_multiple: [0, 1],
+    headers: [
+      { text: 'Nome', value: 'nome' },
+      { text: 'Telefone', value: 'telefone' },
+      { text: 'Email', value: 'email' },
+      { text: 'Cidade', value: 'cidade' },
+      { text: 'Data Contato', value: 'dataContato' },
+      { text: 'Data Parto', value: 'dataParto' },
+      { text: 'Interessado', value: 'interessado' },
+      { text: 'Formulário', value: 'formulario' },
+      { text: 'Follow-up', value: 'followup' },
+      { text: '', value: 'desativar' },
+    ],
+  }),
+  methods: {
+    editClient(key) {
+      Vue.$localStorage.set('idEdita', key);
+      Vue.$localStorage.set('pagina', this.pagination.page);
+      this.$router.replace('edita-cliente');
+    },
+    verifyLogin() {
+      this.$emit('logou');
+    },
+    confirmRemoveClient(key) {
+      this.dialog = true;
+      this.keyExclusao = key;
+    },
+    removeClient() {
+      clientesRef.child(this.keyExclusao).remove();
+      this.dialog = false;
+    },
+  },
+  created() {
+    this.verifyLogin();
+  },
+};
+</script>

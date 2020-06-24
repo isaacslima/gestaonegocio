@@ -1,5 +1,5 @@
 <template>
-<d-col class="main-content offset-lg-2 offset-md-3 p-0" tag="main" lg="10" md="9" sm="12">
+<d-col class="main-content offset-lg-2 p-0" tag="main" lg="10" md="9" sm="12">
     <d-container fluid class="main-content-container px-4">
       <d-row no-gutters class="page-header py-2 pb-4 mb-3">
         <d-col col sm="4" class="text-center text-sm-left mb-4 mb-sm-0">

@@ -10,8 +10,8 @@
         <d-dropdown-item><i class="material-icons">&#xE2C7;</i> Files</d-dropdown-item>
         <d-dropdown-item><i class="material-icons">&#xE896;</i> Transactions</d-dropdown-item>
         <d-dropdown-divider /> -->
-        <d-dropdown-item class="text-danger" @click="logout()">
-          <a>
+        <d-dropdown-item class="text-danger" >
+          <a @click="logout()">
             <i class="material-icons text-danger">&#xE879;</i> Sair
           </a>
         </d-dropdown-item>
