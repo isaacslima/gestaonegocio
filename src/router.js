@@ -7,6 +7,7 @@ import ComponentsOverview from './views/ComponentsOverview.vue';
 import CadastroClientes from './views/CadastroClientes.vue';
 import CadastroServicos from './views/CadastroServicos.vue';
 import Entradas from './views/Entradas.vue';
+import Saidas from './views/Saidas.vue';
 import Tables from './views/Tables.vue';
 
 Vue.use(Router);
@@ -53,6 +54,11 @@ export default new Router({
       path: '/entradas',
       name: 'entradas',
       component: Entradas,
+    },
+    {
+      path: '/saidas',
+      name: 'saidas',
+      component: Saidas,
     },
     {
       path: '/tables',

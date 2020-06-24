@@ -22,6 +22,20 @@ export default function () {
     },
   },
   {
+    title: 'Entradas',
+    htmlBefore: '<i class="material-icons">build</i>',
+    to: {
+      name: 'entradas',
+    },
+  },
+  {
+    title: 'Saídas',
+    htmlBefore: '<i class="material-icons">build</i>',
+    to: {
+      name: 'saidas',
+    },
+  },
+  {
     title: 'Forms & Components',
     htmlBefore: '<i class="material-icons">view_module</i>',
     to: {
