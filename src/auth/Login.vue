@@ -52,6 +52,7 @@ export default {
   methods: {
     doLogin() {
       console.log(this.email + this.password);
+      this.$router.push('/home');
     },
   }
 };
