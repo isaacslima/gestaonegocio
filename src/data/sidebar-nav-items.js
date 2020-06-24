@@ -6,7 +6,7 @@ export default function () {
     },
     htmlBefore: '<i class="material-icons">edit</i>',
     htmlAfter: '',
-  }, 
+  },
   {
     title: 'Cadastro Clientes',
     htmlBefore: '<i class="material-icons">group</i>',

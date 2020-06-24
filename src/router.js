@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Meta from 'vue-meta';
+import firebase from 'firebase';
+import NProgress from 'nprogress';
 
 import Home from './views/Home.vue';
 import UserProfileLite from './views/UserProfileLite.vue';
@@ -11,9 +13,6 @@ import Entradas from './views/Entradas.vue';
 import Saidas from './views/Saidas.vue';
 import Tables from './views/Tables.vue';
 import Login from './auth/Login.vue';
-
-import firebase from 'firebase';
-import NProgress from 'nprogress';
 
 Vue.use(Router);
 
