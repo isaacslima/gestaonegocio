@@ -1,9 +1,9 @@
 <template>
   <d-container fluid>
     <d-row>
-      <main-sidebar :items="sidebarItems" />
+      <main-sidebar :items="sidebarItems" v-if="logged" />
       <d-col class="main-content offset-lg-2 offset-md-3 p-0" tag="main" lg="10" md="9" sm="12">
-        <main-navbar />
+        <main-navbar v-if="logged" />
         <slot />
       </d-col>
     </d-row>
@@ -25,6 +25,7 @@ export default {
   },
   data() {
     return {
+      logged: false,
       sidebarItems: getSidebarItems(),
     };
   },
