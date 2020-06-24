@@ -1,24 +1,27 @@
 export default function () {
   return [{
-    title: 'Blog Dashboard',
+    title: 'Dashboard',
     to: {
       name: 'blog-overview',
     },
     htmlBefore: '<i class="material-icons">edit</i>',
     htmlAfter: '',
-  }, {
-    title: 'Blog Posts',
-    htmlBefore: '<i class="material-icons">vertical_split</i>',
+  }, 
+  {
+    title: 'Cadastro Clientes',
+    htmlBefore: '<i class="material-icons">group</i>',
     to: {
-      name: 'blog-posts',
+      name: 'cadastro-clientes',
     },
-  }, {
-    title: 'Add New Post',
-    htmlBefore: '<i class="material-icons">note_add</i>',
+  },
+  {
+    title: 'Cadastro Serviços',
+    htmlBefore: '<i class="material-icons">build</i>',
     to: {
-      name: 'add-new-post',
+      name: 'cadastro-servicos',
     },
-  }, {
+  },
+  {
     title: 'Forms & Components',
     htmlBefore: '<i class="material-icons">view_module</i>',
     to: {
@@ -35,12 +38,6 @@ export default function () {
     htmlBefore: '<i class="material-icons">person</i>',
     to: {
       name: 'user-profile-lite',
-    },
-  }, {
-    title: 'Errors',
-    htmlBefore: '<i class="material-icons">error</i>',
-    to: {
-      name: 'errors',
     },
   }];
 }

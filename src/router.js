@@ -3,11 +3,9 @@ import Router from 'vue-router';
 
 import PersonalBlog from './views/PersonalBlog.vue';
 import UserProfileLite from './views/UserProfileLite.vue';
-import AddNewPost from './views/AddNewPost.vue';
-import Errors from './views/Errors.vue';
 import ComponentsOverview from './views/ComponentsOverview.vue';
+import CadastroClientes from './views/CadastroClientes.vue';
 import Tables from './views/Tables.vue';
-import BlogPosts from './views/BlogPosts.vue';
 
 Vue.use(Router);
 
@@ -35,32 +33,23 @@ export default new Router({
       component: UserProfileLite,
     },
     {
-      path: '/add-new-post',
-      name: 'add-new-post',
-      component: AddNewPost,
-    },
-    {
-      path: '/errors',
-      name: 'errors',
-      component: Errors,
-    },
-    {
       path: '/components-overview',
       name: 'components-overview',
       component: ComponentsOverview,
     },
     {
+      path: '/cadastro-clientes',
+      name: 'cadastro-clientes',
+      component: CadastroClientes,
+    },
+    {
       path: '/tables',
       name: 'tables',
       component: Tables,
-    },
+    }, 
     {
-      path: '/blog-posts',
-      name: 'blog-posts',
-      component: BlogPosts,
-    }, {
       path: '*',
-      redirect: '/errors',
+      redirect: '/',
     },
   ],
 });
