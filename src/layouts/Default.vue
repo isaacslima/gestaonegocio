@@ -4,13 +4,14 @@
       <main-sidebar :items="sidebarItems" v-if="logged" />
       <d-col class="main-content offset-lg-2 offset-md-3 p-0" tag="main" lg="10" md="9" sm="12">
         <main-navbar v-if="logged" />
-        <slot />
+        <slot v-on:login="loggedin" />
       </d-col>
     </d-row>
   </d-container>
 </template>
 
 <script>
+import firebase from 'firebase';
 import getSidebarItems from '@/data/sidebar-nav-items';
 
 // Main layout components
@@ -23,11 +24,30 @@ export default {
     MainNavbar,
     MainSidebar,
   },
-  data() {
-    return {
-      logged: false,
-      sidebarItems: getSidebarItems(),
-    };
+  data: () => ({
+    logged: false,
+    sidebarItems: getSidebarItems(),
+  }),
+  methods: {
+    verifyLogin() {
+      const self = this;
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          self.logged = true;
+        } else {
+          self.logged = false;
+        }
+      });
+    },
+    loggedin() {
+      this.login = true;
+    },
+  },
+  updated() {
+    this.verifyLogin();
+  },
+  created() {
+    this.verifyLogin();
   },
 };
 </script>

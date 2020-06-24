@@ -11,7 +11,6 @@ import CadastroClientes from './views/CadastroClientes.vue';
 import CadastroServicos from './views/CadastroServicos.vue';
 import Entradas from './views/Entradas.vue';
 import Saidas from './views/Saidas.vue';
-import Tables from './views/Tables.vue';
 import Login from './auth/Login.vue';
 
 Vue.use(Router);
@@ -78,12 +77,6 @@ const router = new Router({
       path: '/saidas',
       name: 'saidas',
       component: Saidas,
-      meta: { requiresAuth: true },
-    },
-    {
-      path: '/tables',
-      name: 'tables',
-      component: Tables,
       meta: { requiresAuth: true },
     },
   ],

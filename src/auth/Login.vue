@@ -17,7 +17,6 @@
               <d-list-group-item class="p-3">
                 <d-row>
                   <d-col>
-                    <d-form>
                       <d-form-row class="pb-3">
                         <d-col md="12" class="form-group">
                           <label for="feEmailAddress">Email</label>
@@ -29,7 +28,6 @@
                         </d-col>
                       </d-form-row>
                       <d-button @click="doLogin()">Entrar</d-button>
-                    </d-form>
                   </d-col>
                 </d-row>
               </d-list-group-item>
@@ -44,6 +42,10 @@
 </script>
 
 <script>
+import firebase from 'firebase'
+import Vue from 'vue'
+import Storage from 'vue-web-storage'
+Vue.use(Storage)
 export default {
   data: () => ({
     email: '',
@@ -51,8 +53,22 @@ export default {
   }),
   methods: {
     doLogin() {
-      console.log(this.email + this.password);
-      this.$router.push('/home');
+      var self = this
+      firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+        .then(() => {
+          this.salvaUid()
+          this.$emit('login')
+          this.$router.replace('/home')
+        }).catch(function () {
+          self.snackbar = true
+          self.color = 'error'
+          self.msg = 'Senha ou email incorretos'
+        })
+    },
+    salvaUid () {
+      var user = firebase.auth().currentUser
+      console.log(user);
+      Vue.$localStorage.set('id', user.uid)
     },
   }
 };
