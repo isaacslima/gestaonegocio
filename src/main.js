@@ -18,6 +18,8 @@ import router from './router';
 // Layouts
 import Default from '@/layouts/Default.vue';
 
+import vuetify from './plugins/vuetify';
+
 ShardsVue.install(Vue);
 
 Vue.component('default-layout', Default);
@@ -32,6 +34,7 @@ firebase.auth().onAuthStateChanged(function () {
     app = new Vue({
       firebase,
       router,
+      vuetify,
       render: h => h(App)
     }).$mount('#app')
   }
