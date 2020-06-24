@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import PersonalBlog from './views/PersonalBlog.vue';
+import Home from './views/Home.vue';
 import UserProfileLite from './views/UserProfileLite.vue';
 import ComponentsOverview from './views/ComponentsOverview.vue';
 import CadastroClientes from './views/CadastroClientes.vue';
@@ -24,12 +24,12 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/blog-overview',
+      redirect: '/home',
     },
     {
-      path: '/blog-overview',
-      name: 'blog-overview',
-      component: PersonalBlog,
+      path: '/home',
+      name: 'home',
+      component: Home,
     },
     {
       path: '/login',
