@@ -23,8 +23,8 @@ CRUD Outgoings
 
 CRU User and permissions.
 
-Configure your firebase settings
-
+Configure your firebase settings on firebase folder, create an index.js like the code below
+<pre>
 import { initializeApp } from 'firebase';
 
 const app = initializeApp({
@@ -43,7 +43,4 @@ export const usuariosRef = db.ref('usuarios');
 export const servicosRef = db.ref('servicos');
 export const entradasRef = db.ref('entradas');
 export const saidasRef = db.ref('saidas');
-
-
-
-
+</pre>
