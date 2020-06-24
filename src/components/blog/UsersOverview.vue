@@ -147,8 +147,7 @@ export default {
       data: this.chartData,
       options: chartOptions,
     });
-
-      // They can still be triggered on hover.
+    // They can still be triggered on hover.
     const buoMeta = BlogUsersOverview.getDatasetMeta(0);
     buoMeta.data[0]._model.radius = 0;
     buoMeta.data[this.chartData.datasets[0].data.length - 1]._model.radius = 0;
