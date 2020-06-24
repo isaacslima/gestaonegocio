@@ -6,6 +6,7 @@ import UserProfileLite from './views/UserProfileLite.vue';
 import ComponentsOverview from './views/ComponentsOverview.vue';
 import CadastroClientes from './views/CadastroClientes.vue';
 import CadastroServicos from './views/CadastroServicos.vue';
+import Entradas from './views/Entradas.vue';
 import Tables from './views/Tables.vue';
 
 Vue.use(Router);
@@ -47,6 +48,11 @@ export default new Router({
       path: '/cadastro-servicos',
       name: 'cadastro-servicos',
       component: CadastroServicos,
+    },
+    {
+      path: '/entradas',
+      name: 'entradas',
+      component: Entradas,
     },
     {
       path: '/tables',
