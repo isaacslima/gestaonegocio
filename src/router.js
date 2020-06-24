@@ -9,6 +9,7 @@ import CadastroServicos from './views/CadastroServicos.vue';
 import Entradas from './views/Entradas.vue';
 import Saidas from './views/Saidas.vue';
 import Tables from './views/Tables.vue';
+import Login from './auth/Login.vue';
 
 Vue.use(Router);
 
@@ -29,6 +30,11 @@ export default new Router({
       path: '/blog-overview',
       name: 'blog-overview',
       component: PersonalBlog,
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login,
     },
     {
       path: '/user-profile-lite',
@@ -64,7 +70,7 @@ export default new Router({
       path: '/tables',
       name: 'tables',
       component: Tables,
-    }, 
+    },
     {
       path: '*',
       redirect: '/',
