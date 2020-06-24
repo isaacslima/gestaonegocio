@@ -50,8 +50,8 @@ const router = new Router({
       meta: { requiresAuth: true },
     },
     {
-      path: '/components-overview',
-      name: 'components-overview',
+      path: '/components',
+      name: 'components',
       component: ComponentsOverview,
       meta: { requiresAuth: true },
     },
