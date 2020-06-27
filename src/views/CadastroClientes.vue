@@ -23,6 +23,31 @@
             :items="clientes"
             :search="search"
           >
+            <template slot="items" slot-scope="props" >
+              <td  @click="mostraCliente(props.item['.key'])">{{ props.item.nome }}</td>
+              <td >{{ props.item.telefone }}</td>
+              <td >{{ props.item.email }}</td>
+              <td >{{ props.item.cidade }}</td>
+              <td >{{ props.item.dataContato }}</td>
+              <td >{{ props.item.dataParto }}</td>
+              <td align="center">
+                <v-icon color="green" v-if="props.item.interessado">check_circle_outline</v-icon>
+              </td>
+              <td align="center">
+                <v-icon color="green" v-if="props.item.formulario">check_circle_outline</v-icon>
+              </td>
+              <td >{{ props.item.followup }}</td>
+              <td>
+                <v-btn-toggle v-model="toggle_multiple" multiple>
+                  <v-btn flat color="blue" @click="editaCliente(props.item['.key'])">
+                    <v-icon>edit</v-icon>
+                  </v-btn>
+                  <v-btn flat color="red" @click="desativar(props.item['.key'])" >
+                    <v-icon>close</v-icon>
+                  </v-btn>
+                </v-btn-toggle>
+              </td>
+            </template>
           </v-data-table>
         </v-card>
         <v-dialog
@@ -57,17 +82,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-      <v-btn
-        fab
-        top
-        right
-        color="green"
-        dark
-        fixed
-        to="/cadastro-cliente"
-      >
-        <v-icon>add</v-icon>
-      </v-btn>
       </div>
     </div>
   </div>
@@ -81,9 +95,6 @@ import { clientesRef } from '../firebase';
 Vue.use(Storage);
 
 export default {
-  firebase: {
-    clientes: clientesRef,
-  },
   data: () => ({
     search: '',
     clientes: [],
@@ -128,7 +139,10 @@ export default {
     this.verifyLogin();
   },
   beforeMount() {
-    console.log(this.clientes);
+    const self = this;
+    clientesRef.on('child_added', (snapshot) => {
+      self.clientes.push(snapshot.val());
+    });
   },
 };
 </script>
