@@ -28,7 +28,6 @@ export default {
   }),
   methods: {
     logout() {
-      console.log('sair');
       firebase.auth().signOut().then(() => {
         this.login = false;
         this.$router.replace('login');

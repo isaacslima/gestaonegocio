@@ -91,7 +91,7 @@ export default {
           data: [1, 2, 3, 3, 3, 4, 4],
         }],
       }, {
-        label: 'Subscribers',
+        label: 'Saídas',
         value: '17,281',
         percentage: '2.4%',
         increase: false,
