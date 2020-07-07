@@ -8,40 +8,44 @@
     </d-row>
 
     <!-- Small Stats Blocks -->
-    <d-row>
+    <d-row v-if="false">
       <d-col lg v-for="(stats, idx) in smallStats" :key="idx" class="mb-4">
         <small-stats :id="`small-stats-${idx}`" variation="1" :chart-data="stats.datasets" :label="stats.label" :value="stats.value" :percentage="stats.percentage" :increase="stats.increase" :decrease="stats.decrease" />
       </d-col>
     </d-row>
-
-    <d-row v-if="false">
-      <!-- Users Overview -->
-      <d-col lg="8" md="6" sm="12" class="mb-4">
-        <bo-users-overview />
-      </d-col>
-
-      <!-- Users by Device (lite) -->
-      <d-col lg="4" md="6" sm="12" class="mb-4">
-        <bo-users-by-device />
-      </d-col>
+    <d-row>
+      <d-card class="card-small col-12">
+            <!-- Form Example -->
+            <d-card-header class="border-bottom">
+              <h6 class="m-0">Aniversariantes do mês</h6>
+            </d-card-header>
+            <d-list-group class="border-bottom" flush v-for="item in clientes" :key="item['.key']">
+              <d-list-group-item class="p-3">
+                {{ item.nome }} - Aniversario Cliente {{ item.aniversarioMae }}
+                <br> Aniversário Criança {{ item.aniversarioCrianca }}
+              </d-list-group-item>
+            </d-list-group>
+      </d-card>
     </d-row>
-
   </d-container>
 </template>
 
 <script>
 import SmallStats from '@/components/common/SmallStats.vue';
-import UsersOverview from '@/components/blog/UsersOverview.vue';
-import UsersByDevice from '@/components/blog/UsersByDeviceLite.vue';
+
+import Vue from 'vue';
+import Storage from 'vue-web-storage';
+import { clientesRef } from '../firebase';
+
+Vue.use(Storage);
 
 export default {
   components: {
     SmallStats,
-    boUsersOverview: UsersOverview,
-    boUsersByDevice: UsersByDevice,
   },
   data() {
     return {
+      clientes: [],
       dateRange: {
         from: null,
         to: null,
@@ -62,51 +66,17 @@ export default {
       alert('Viewing all comments!'); // eslint-disable-line no-alert
     },
   },
-  computed: {
-    smallStats() {
-      return [{
-        label: 'Clientes',
-        value: '158',
-        increase: true,
-        labels: ['Label', 'Label', 'Label', 'Label', 'Label', 'Label'],
-        datasets: [{
-          label: 'Today',
-          fill: 'start',
-          borderWidth: 1.5,
-          backgroundColor: 'rgba(0, 184, 216, 0.1)',
-          borderColor: 'rgb(0, 184, 216)',
-          data: [1, 2, 1, 3, 5, 4, 7],
-        }],
-      }, {
-        label: 'Entradas Mês',
-        value: '150,00',
-        increase: true,
-        labels: ['Label', 'Label', 'Label', 'Label', 'Label', 'Label'],
-        datasets: [{
-          label: 'Today',
-          fill: 'start',
-          borderWidth: 1.5,
-          backgroundColor: 'rgba(23,198,113,0.1)',
-          borderColor: 'rgb(23,198,113)',
-          data: [1, 2, 3, 3, 3, 4, 4],
-        }],
-      }, {
-        label: 'Saídas',
-        value: '17,281',
-        percentage: '2.4%',
-        increase: false,
-        decrease: true,
-        labels: ['Label', 'Label', 'Label', 'Label', 'Label', 'Label'],
-        datasets: [{
-          label: 'Today',
-          fill: 'start',
-          borderWidth: 1.5,
-          backgroundColor: 'rgb(0,123,255,0.1)',
-          borderColor: 'rgb(0,123,255)',
-          data: [3, 2, 3, 2, 4, 5, 4],
-        }],
-      }];
-    },
+  created() {
+    this.verifyLogin();
+  },
+  beforeMount() {
+    const self = this;
+    const data = new Date().getMonth() + 1;
+    clientesRef.on('child_added', (snapshot) => {
+      if (parseInt(snapshot.val().aniversarioMae.substring(3, 5), 10) === data || parseInt(snapshot.val().aniversarioCrianca.substring(3, 5), 10) === data) {
+        self.clientes.push(snapshot.val());
+      }
+    });
   },
 };
 </script>
