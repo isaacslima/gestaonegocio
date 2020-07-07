@@ -2,66 +2,81 @@
   <div class="main-content-container container-fluid px-4">
     <!-- Page Header -->
     <div class="page-header row no-gutters py-4">
-      <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+      <div class="col-12 col-sm-9 text-center text-sm-left mb-0">
         <h3 class="page-title">Entradas</h3>
       </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <div class="card card-small mb-4">
-          <div class="card-header border-bottom">
-            <h6 class="m-0">Active Users</h6>
-          </div>
-          <div class="card-body p-0 pb-3 text-center">
-            <table class="table mb-0">
-              <thead class="bg-light">
-                <tr>
-                  <th scope="col" class="border-0">#</th>
-                  <th scope="col" class="border-0">First Name</th>
-                  <th scope="col" class="border-0">Last Name</th>
-                  <th scope="col" class="border-0">Country</th>
-                  <th scope="col" class="border-0">City</th>
-                  <th scope="col" class="border-0">Phone</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Ali</td>
-                  <td>Kerry</td>
-                  <td>Russian Federation</td>
-                  <td>Gdańsk</td>
-                  <td>107-0339</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Clark</td>
-                  <td>Angela</td>
-                  <td>Estonia</td>
-                  <td>Borghetto di Vara</td>
-                  <td>1-660-850-1647</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Jerry</td>
-                  <td>Nathan</td>
-                  <td>Cyprus</td>
-                  <td>Braunau am Inn</td>
-                  <td>214-4225</td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>Colt</td>
-                  <td>Angela</td>
-                  <td>Liberia</td>
-                  <td>Bad Hersfeld</td>
-                  <td>1-848-473-7416</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+      <div class="col-3 col-sm-3 text-center text-sm-right mb-0">
+        <d-button theme="success" class="mb-2 mr-1">Nova Entrada</d-button>
       </div>
+    </div>
+    <div class="col-12 col-sm-12 text-center text-sm-left mb-0">
+      <d-card class="card-small mb-4" v-for="item in entradas" :key="item['.key']">
+        <d-list-group flush>
+          <d-list-group-item class="px-3">
+            <h5>
+              <b>Cliente: </b> {{ item.cliente }} <b>Data: </b>{{ item.data }} <b>Preço: </b> R$ {{ item.preco.toFixed(2) }} <b>Serviços: </b> {{ item.servico }}
+            </h5>
+            <div class="row">
+              <d-card class="col-3 m-1" v-for="e in item.entradas" :key="e['.key']" >
+                <p><b>Pago:</b>
+                  <i class="material-icons mr-1 bg-success rounded text-white" v-if="e.pago" >check</i>
+                <i class="material-icons mr-1 bg-danger rounded text-white" v-if="!e.pago">close</i>
+                   <b>Valor:</b> {{ e.valor.toFixed(2) }} <br><b>Data Pagamento:</b> {{ e.dataPagamento }}</p>
+              </d-card>
+            </div>
+          </d-list-group-item>
+        </d-list-group>
+        <d-list-group flush class="text-right">
+          <d-button size="sm" theme="primary" class="mb-2 btn-outline-light mr-1">
+            <i class="material-icons mr-1 bg-primary text-white">edit</i>Editar
+          </d-button>
+        </d-list-group>
+      </d-card>
     </div>
   </div>
 </template>
+
+<script>
+import Vue from 'vue';
+import Storage from 'vue-web-storage';
+import { entradasRef } from '../firebase';
+
+Vue.use(Storage);
+
+export default {
+  data: () => ({
+    search: '',
+    entradas: [],
+    dialog: false,
+    keyExclusao: false,
+    keys: [],
+  }),
+  methods: {
+    editClient(key) {
+      Vue.$localStorage.set('idEdita', key);
+      Vue.$localStorage.set('pagina', this.pagination.page);
+      this.$router.replace('edita-cliente');
+    },
+    verifyLogin() {
+      this.$emit('logou');
+    },
+    confirmRemoveClient(key) {
+      this.dialog = true;
+      this.keyExclusao = key;
+    },
+    removeClient() {
+      entradasRef.child(this.keyExclusao).remove();
+      this.dialog = false;
+    },
+  },
+  created() {
+    this.verifyLogin();
+  },
+  beforeMount() {
+    const self = this;
+    entradasRef.on('child_added', (snapshot) => {
+      self.entradas.push(snapshot.val());
+    });
+  },
+};
+</script>
