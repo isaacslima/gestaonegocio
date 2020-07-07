@@ -15,16 +15,19 @@
     </d-row>
     <d-row>
       <d-card class="card-small col-12">
-            <!-- Form Example -->
-            <d-card-header class="border-bottom">
-              <h6 class="m-0">Aniversariantes do mês</h6>
-            </d-card-header>
-            <d-list-group class="border-bottom" flush v-for="item in clientes" :key="item['.key']">
-              <d-list-group-item class="p-3">
-                {{ item.nome }} - Aniversario Cliente {{ item.aniversarioMae }}
-                <br> Aniversário Criança {{ item.aniversarioCrianca }}
-              </d-list-group-item>
-            </d-list-group>
+        <!-- Form Example -->
+        <d-card-header class="border-bottom">
+          <h6 class="m-0">Aniversariantes do mês</h6>
+        </d-card-header>
+        <d-list-group class="border-bottom" flush v-for="item in clientes" :key="item['.key']">
+          <d-list-group-item class="p-3">
+            <h5>
+            <b> Cliente: </b> {{ item.nome }}
+            <br> <b>Aniversario Cliente</b> {{ item.aniversarioMae }}
+            <br> <b>Aniversário Criança</b> {{ item.aniversarioCrianca }}
+            </h5>
+          </d-list-group-item>
+        </d-list-group>
       </d-card>
     </d-row>
   </d-container>
