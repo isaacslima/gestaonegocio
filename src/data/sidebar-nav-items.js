@@ -28,13 +28,13 @@ export default function () {
       name: 'entradas',
     },
   },
-  {
-    title: 'Saídas',
-    htmlBefore: '<i class="material-icons">build</i>',
-    to: {
-      name: 'saidas',
-    },
-  },
+  // {
+  //   title: 'Saídas',
+  //   htmlBefore: '<i class="material-icons">build</i>',
+  //   to: {
+  //     name: 'saidas',
+  //   },
+  // },
   // {
   //   title: 'User Profile',
   //   htmlBefore: '<i class="material-icons">person</i>',
