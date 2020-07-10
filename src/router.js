@@ -8,6 +8,7 @@ import Home from './views/Home.vue';
 import UserProfileLite from './views/UserProfileLite.vue';
 import ComponentsOverview from './views/ComponentsOverview.vue';
 import CadastroClientes from './views/CadastroClientes.vue';
+import EditarCliente from './views/EditarCliente.vue';
 import CadastroServicos from './views/CadastroServicos.vue';
 import Entradas from './views/Entradas.vue';
 import Saidas from './views/Saidas.vue';
@@ -59,6 +60,12 @@ const router = new Router({
       path: '/cadastro-clientes',
       name: 'cadastro-clientes',
       component: CadastroClientes,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/editar-cliente',
+      name: 'editar-cliente',
+      component: EditarCliente,
       meta: { requiresAuth: true },
     },
     {

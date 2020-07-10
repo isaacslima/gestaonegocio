@@ -29,6 +29,8 @@
         </d-list-group>
       </d-card>
     </div>
+    <v-dialog>
+    </v-dialog>
   </div>
 </template>
 

@@ -1,0 +1,398 @@
+<template>
+  <v-form v-on:submit.prevent="cadastrar" ref="form" v-model="valid" lazy-validation>
+    <v-content id="inspire">
+      <v-btn fab top right color="indigo" dark fixed to="/clientes">
+        <v-icon>arrow_back</v-icon>
+      </v-btn>
+      <v-container grid-list-md>
+        <h2>Cadastro de Clientes</h2>
+        <v-layout row wrap>
+          <v-flex xs12 sm5>
+            <v-text-field v-model="nome" required label="Nome"></v-text-field>
+          </v-flex>
+          <v-flex xs12 sm2>
+            <v-text-field v-model="telefone" required mask="(##) # ####-####" label="Telefone"></v-text-field>
+          </v-flex>
+          <v-flex xs12 sm2>
+            <v-text-field v-model="instagram" required prepend-inner-icon="alternate_email" label="Instagram">
+            </v-text-field>
+          </v-flex>
+          <v-flex xs12 sm3>
+            <v-text-field v-model="email" required label="E-mail"></v-text-field>
+          </v-flex>
+          <v-flex xs12 sm2>
+            <v-menu ref="menuDataContato" :close-on-content-click="false" v-model="menuDataContato" :nudge-right="40"
+              lazy transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
+              <v-text-field slot="activator" v-model="dataContato" label="Data Contato" persistent-hint readonly
+                prepend-icon="event" @blur="date = parseDate(dataContato)"></v-text-field>
+              <v-date-picker v-model="date" no-title @input="menuDataContato = false"></v-date-picker>
+            </v-menu>
+
+          </v-flex>
+          <v-flex xs12 sm1>
+            <v-text-field v-model="meioContato" required label="Meio Contato"></v-text-field>
+          </v-flex>
+          <v-flex xs12 sm3>
+            <v-text-field v-model="indicacao" required label="Indicação"></v-text-field>
+          </v-flex>
+          <v-flex xs12 sm2>
+            <v-menu ref="menuDataParto" :close-on-content-click="false" v-model="menuDataParto" :nudge-right="40" lazy
+              transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
+              <v-text-field slot="activator" v-model="dataParto" readonly label="Data Parto / Idade Criança"
+                persistent-hint prepend-icon="event" @blur="dateParto = parseDate(dataParto)"></v-text-field>
+              <v-date-picker v-model="dateParto" no-title @input="menuDataParto = false"></v-date-picker>
+            </v-menu>
+          </v-flex>
+          <v-flex xs12 sm2>
+            <v-text-field v-model="aniversarioMae" label="Data Nascimento Mãe" mask="##/##/####" hint="dd/mm/aaaa"
+              persistent-hint></v-text-field>
+          </v-flex>
+          <v-flex xs12 sm2>
+            <v-menu ref="menuAniversarioCrianca" :close-on-content-click="false" v-model="menuAniversarioCrianca"
+              :nudge-right="40" lazy transition="scale-transition" offset-y full-width max-width="290px"
+              min-width="290px">
+              <v-text-field slot="activator" v-model="aniversarioCrianca" label="Aniversário Criança" persistent-hint
+                prepend-icon="event" @blur="dateAniversarioCrianca = parseDate(aniversarioCrianca)"></v-text-field>
+              <v-date-picker v-model="dateAniversarioCrianca" no-title @input="menuAniversarioCrianca = false">
+              </v-date-picker>
+            </v-menu>
+          </v-flex>
+          <v-flex xs12 sm5>
+            <v-text-field v-model="nomePai" required label="Nome Pai"></v-text-field>
+          </v-flex>
+          <v-flex xs12 sm3>
+            <v-text-field v-model="telefonePai" required mask="(##) # ####-####" label="Telefone Pai"></v-text-field>
+          </v-flex>
+          <v-layout xs12 sm12>
+            <v-flex xs12 sm1>
+              <v-checkbox v-model="checkContrato" label="Contrato">
+              </v-checkbox>
+            </v-flex>
+            <v-flex xs12 sm2>
+              <v-menu ref="menuDataContrato" :close-on-content-click="false" v-model="menuDataContrato"
+                :nudge-right="40" lazy transition="scale-transition" offset-y full-width max-width="290px"
+                min-width="290px">
+                <v-text-field slot="activator" v-model="dataContrato" label="Data Contrato" persistent-hint readonly
+                  prepend-icon="event" @blur="dateContrato = parseDate(dataContrato)"></v-text-field>
+                <v-date-picker v-model="dateContrato" no-title @input="menuDataContrato = false"></v-date-picker>
+              </v-menu>
+            </v-flex>
+            <v-flex xs12 sm1>
+              <v-checkbox v-model="checkEnxoval" label="Enxoval">
+              </v-checkbox>
+            </v-flex>
+            <v-flex xs12 sm2>
+              <v-menu ref="menuDataEnxoval" :close-on-content-click="false" v-model="menuDataEnxoval" :nudge-right="40"
+                lazy transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
+                <v-text-field slot="activator" v-model="dataEnxoval" label="Data Enxoval" persistent-hint readonly
+                  prepend-icon="event" @blur="dateEnxoval = parseDate(dataEnxoval)"></v-text-field>
+                <v-date-picker v-model="dateEnxoval" no-title @input="menuDataEnxoval = false"></v-date-picker>
+              </v-menu>
+            </v-flex>
+            <v-flex xs12 sm1>
+              <v-checkbox v-model="checkPortifolio" label="Portifólio">
+              </v-checkbox>
+            </v-flex>
+            <v-flex xs12 sm2>
+              <v-menu ref="menuDataPortifolio" :close-on-content-click="false" v-model="menuDataPortifolio"
+                :nudge-right="40" lazy transition="scale-transition" offset-y full-width max-width="290px"
+                min-width="290px">
+                <v-text-field slot="activator" v-model="dataPortifolio" label="Data Portifólio" persistent-hint readonly
+                  prepend-icon="event" @blur="datePortifolio = parseDate(dataPortifolio)"></v-text-field>
+                <v-date-picker v-model="datePortifolio" no-title @input="menuDataPortifolio = false"></v-date-picker>
+              </v-menu>
+
+            </v-flex>
+          </v-layout>
+
+          <v-flex xs12 sm3>
+            <v-text-field v-model="cep" required @change="validaCEP" mask="##.###-###" append-icon="search"
+              :rules="obrigatorio" @click:append="validaCEP" label="CEP *"></v-text-field>
+          </v-flex>
+          <v-flex xs12 sm3>
+            <v-text-field v-model="logradouro" required :rules="obrigatorio" label="Logradouro *"></v-text-field>
+          </v-flex>
+          <v-flex xs12 sm3>
+            <v-text-field v-model="numero" :rules="obrigatorio" required label="Número *"></v-text-field>
+          </v-flex>
+          <v-flex xs12 sm3>
+            <v-text-field v-model="complemento" required label="Complemento"></v-text-field>
+          </v-flex>
+          <v-flex xs12 sm3>
+            <v-text-field v-model="bairro" required :rules="obrigatorio" label="Bairro *"></v-text-field>
+          </v-flex>
+          <v-flex xs12 sm3>
+            <v-text-field v-model="cidade" required :rules="obrigatorio" label="Cidade *"></v-text-field>
+          </v-flex>
+          <v-flex xs12 sm3>
+            <v-text-field v-model="uf" required :rules="obrigatorio" label="Estado *"></v-text-field>
+          </v-flex>
+
+          <v-flex xs12 sm12>
+            <v-textarea v-model="observacao" required label="Observação">
+            </v-textarea>
+          </v-flex>
+
+          <v-flex xs12 sm3>
+            <v-text-field v-model="followup" required label="Follow-up"></v-text-field>
+          </v-flex>
+
+          <v-flex xs12 sm3>
+            <v-checkbox v-model="interessado" label="Interessado">
+            </v-checkbox>
+          </v-flex>
+
+          <v-card class="light-gray" style="width:100%">
+            <v-layout row wrap v-for="(item, index) in filhos" v-bind:key="item.id" mb-3>
+              <v-card-title>{{ index + 1 }}º Filho(a)</v-card-title>
+              <v-flex xs12 sm2>
+                <v-text-field v-model="item.nome" required label="Nome">
+                </v-text-field>
+              </v-flex>
+              <v-flex xs12 sm2>
+                <v-text-field v-model="item.dataParto" label="Data Parto" mask="##/##/####" persistent-hint
+                  hint="DD/MM/AAAA"></v-text-field>
+              </v-flex>
+              <v-btn color="info" @click="addFilho()">Adicionar Filho(a)</v-btn>
+              <v-btn color="error" @click="removeFilho(index)">Remover Filho(a)</v-btn>
+            </v-layout>
+          </v-card>
+        </v-layout>
+        <v-flex xs12 sm4>
+          <v-btn large color="primary" :loading="loading" :disabled="loading || !valid" type="submit">Salvar</v-btn>
+          <v-btn large type="reset" :disabled="loading" @click="clear">Cancelar</v-btn>
+        </v-flex>
+        <v-snackbar v-model="snackbar" :color="color" :multi-line="'multi-line'" :timeout="96000">
+          {{ msg }}
+          <v-btn dark flat @click="snackbar = false" to="/clientes">
+            Fechar
+          </v-btn>
+        </v-snackbar>
+      </v-container>
+    </v-content>
+  </v-form>
+</template>
+<script>
+import Vue from 'vue';
+import Storage from 'vue-web-storage';
+import {
+  clientesRef,
+} from '../firebase';
+
+Vue.use(Storage);
+
+export default {
+  data: vm => ({
+    obrigatorio: [
+      v => !!v || 'Campo é obrigatório',
+    ],
+    date: new Date().toISOString().substr(0, 10),
+    dataContato: vm.formatDate(new Date().toISOString().substr(0, 10)),
+    dateParto: new Date().toISOString().substr(0, 10),
+    dataParto: vm.formatDate(new Date().toISOString().substr(0, 10)),
+    dateAniversarioMae: new Date().toISOString().substr(0, 10),
+    aniversarioMae: vm.formatDate(new Date().toISOString().substr(0, 10)),
+    dateAniversarioCrianca: new Date().toISOString().substr(0, 10),
+    aniversarioCrianca: vm.formatDate(new Date().toISOString().substr(0, 10)),
+    dateContrato: new Date().toISOString().substr(0, 10),
+    dataContrato: vm.formatDate(new Date().toISOString().substr(0, 10)),
+    dateEnxoval: new Date().toISOString().substr(0, 10),
+    dataEnxoval: vm.formatDate(new Date().toISOString().substr(0, 10)),
+    datePortifolio: new Date().toISOString().substr(0, 10),
+    dataPortifolio: vm.formatDate(new Date().toISOString().substr(0, 10)),
+    menuDataContato: false,
+    menuDataParto: false,
+    menuAniversarioMae: false,
+    menuAniversarioCrianca: false,
+    menuDataContrato: false,
+    menuDataEnxoval: false,
+    menuDataPortifolio: false,
+    nome: '',
+    telefone: '',
+    valid: true,
+    email: '',
+    instagram: '',
+    nomePai: '',
+    formulario: false,
+    filhos: [],
+    interessado: false,
+    checkContrato: false,
+    telefonePai: '',
+    checkEnxoval: false,
+    checkPortifolio: false,
+    meioContato: '',
+    indicacao: '',
+    loading: false,
+    ativo: true,
+    color: '',
+    snackbar: false,
+    msg: '',
+    logradouro: '',
+    cep: '',
+    numero: '',
+    complemento: '',
+    bairro: '',
+    cidade: '',
+    uf: '',
+    observacao: '',
+    followup: '',
+  }),
+  created() {
+    this.verificaLogin();
+    this.buscaClientes();
+  },
+  watch: {
+    cep() {
+      this.validaCEP();
+    },
+    date() {
+      this.dataContato = this.formatDate(this.date);
+    },
+    dateParto() {
+      this.dataParto = this.formatDate(this.dateParto);
+    },
+    dateAniversarioMae() {
+      this.aniversarioMae = this.formatDate(this.dateAniversarioMae);
+    },
+    dateAniversarioCrianca() {
+      this.aniversarioCrianca = this.formatDate(this.dateAniversarioCrianca);
+    },
+    dateContrato() {
+      this.dataContrato = this.formatDate(this.dateContrato);
+    },
+    dateEnxoval() {
+      this.dataEnxoval = this.formatDate(this.dateEnxoval);
+    },
+    datePortifolio() {
+      this.dataPortifolio = this.formatDate(this.datePortifolio);
+    },
+  },
+  computed: {
+    computedDateFormatted() {
+      return this.formatDate(this.date);
+    },
+  },
+  methods: {
+    addFilho() {
+      const a = {};
+      this.filhos.push(a);
+    },
+    removeFilho(key) {
+      this.filhos.splice(key, 1);
+    },
+    validaCEP() {
+      if (this.cep) {
+        if (this.cep.length === 8) {
+          const api = `https://viacep.com.br/ws/${this.cep}/json/`;
+          this.$http.get(api).then((response) => {
+            this.logradouro = response.data.logradouro;
+            this.bairro = response.data.bairro;
+            this.complemento = response.data.complemento;
+            this.cidade = response.data.localidade;
+            this.uf = response.data.uf;
+          });
+        }
+      }
+    },
+    buscaClientes() {
+      const self = this;
+      self.idCliente = Vue.$localStorage.get('idEdita');
+      clientesRef.orderByKey().equalTo(self.idCliente).on('child_added', (snapshot) => {
+        self.nome = snapshot.val().nome;
+        self.telefone = snapshot.val().telefone;
+        self.email = snapshot.val().email;
+        self.instagram = snapshot.val().instagram;
+        self.nomePai = snapshot.val().nomePai;
+        self.formulario = snapshot.val().formulario;
+        self.interessado = snapshot.val().interessado;
+        self.checkContrato = snapshot.val().checkContrato;
+        self.telefonePai = snapshot.val().telefonePai;
+        self.checkEnxoval = snapshot.val().checkEnxoval;
+        self.checkPortifolio = snapshot.val().checkPortifolio;
+        self.meioContato = snapshot.val().meioContato;
+        self.indicacao = snapshot.val().indicacao;
+        self.ativo = snapshot.val().ativo;
+        self.filhos = !snapshot.val().filhos ? self.addFilho() : snapshot.val().filhos;
+        self.observacao = snapshot.val().observacao;
+        self.cep = snapshot.val().cep;
+        self.logradouro = snapshot.val().logradouro;
+        self.complemento = snapshot.val().complemento;
+        self.numero = snapshot.val().numero;
+        self.uf = snapshot.val().uf;
+        self.bairro = snapshot.val().bairro;
+        self.cidade = snapshot.val().cidade;
+        self.dataContrato = snapshot.val().dataContrato;
+        self.dataParto = snapshot.val().dataParto;
+        self.aniversarioMae = snapshot.val().aniversarioMae;
+        self.aniversarioCrianca = snapshot.val().aniversarioCrianca;
+        self.dataEnxoval = snapshot.val().dataEnxoval;
+        self.dataPortifolio = snapshot.val().dataPortifolio;
+      });
+    },
+    verificaLogin() {
+      this.$emit('logou');
+    },
+    formatDate(date) {
+      if (!date) return null;
+      const [year, month, day] = date.split('-');
+      return `${day}/${month}/${year}`;
+    },
+    parseDate(date) {
+      if (!date) return null;
+      const [day, month, year] = date.split('/');
+      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    },
+    cadastrar() {
+      if (this.$refs.form.validate()) {
+        this.loading = true;
+        const self = this;
+        clientesRef.child(self.idCliente).update({
+          nome: self.nome,
+          telefone: self.telefone,
+          telefonePai: self.telefonePai,
+          instagram: self.instagram,
+          email: self.email,
+          dataContato: self.dataContato,
+          meioContato: self.meioContato,
+          indicacao: self.indicacao,
+          dataParto: self.dataParto,
+          aniversarioMae: self.aniversarioMae,
+          aniversarioCrianca: self.aniversarioCrianca,
+          nomePai: self.nomePai,
+          checkContrato: self.checkContrato,
+          dataContrato: self.dataContrato,
+          checkEnxoval: self.checkEnxoval,
+          dataEnxoval: self.dataEnxoval,
+          checkPortifolio: self.checkPortifolio,
+          dataPortifolio: self.dataPortifolio,
+          logradouro: self.logradouro,
+          numero: self.numero,
+          cep: self.cep,
+          bairro: self.bairro,
+          cidade: self.cidade,
+          uf: self.uf,
+          complemento: self.complemento,
+          observacao: self.observacao,
+          followup: self.followup,
+          interessado: self.interessado,
+        }).then(() => {
+          self.color = 'success';
+          self.msg = 'Cliente Atualizado com sucesso.';
+          self.snackbar = true;
+          self.loading = false;
+          self.$refs.form.reset();
+        }).catch((error) => {
+          self.color = 'error';
+          self.msg = `Cliente não foi atualizado erro: ${error}`;
+          self.snackbar = true;
+          self.loading = false;
+        });
+      }
+    },
+    clear() {
+      this.loading = false;
+      this.$refs.form.reset();
+    },
+  },
+};
+</script>
