@@ -1,11 +1,20 @@
 <template>
+<div class="main-content-container container-fluid px-4">
+  <div class="page-header row no-gutters py-4">
+      <div class="col-12 col-sm-9 text-center text-sm-left mb-0">
+        <h3 class="page-title">Cadastro Cliente</h3>
+      </div>
+      <div class="col-3 col-sm-3 text-center text-sm-right mb-0">
+        <d-button theme="success" class="mb-2 mr-1">Voltar</d-button>
+      </div>
+  </div>
+<div class="col-12 col-sm-12 text-center text-sm-left mb-0">
   <v-form v-on:submit.prevent="cadastrar" ref="form" v-model="valid" lazy-validation>
     <v-content id="inspire">
       <v-btn fab top right color="indigo" dark fixed to="/clientes">
         <v-icon>arrow_back</v-icon>
       </v-btn>
       <v-container grid-list-md>
-        <h2>Cadastro de Clientes</h2>
         <v-layout row wrap>
           <v-flex xs12 sm5>
             <v-text-field v-model="nome" required label="Nome"></v-text-field>
@@ -159,8 +168,9 @@
           </v-card>
         </v-layout>
         <v-flex xs12 sm4>
-          <v-btn large color="primary" :loading="loading" :disabled="loading || !valid" type="submit">Salvar</v-btn>
-          <v-btn large type="reset" :disabled="loading" @click="clear">Cancelar</v-btn>
+          <d-button theme="success" class="mb-2 mr-1" :disabled="loading" @click="clear" type="reset">Cancelar</d-button>
+          <d-button theme="success" class="mb-2 mr-1" :loading="loading" :disabled="loading || !valid" type="submit">Salvar</d-button>
+
         </v-flex>
         <v-snackbar v-model="snackbar" :color="color" :multi-line="'multi-line'" :timeout="96000">
           {{ msg }}
@@ -171,6 +181,8 @@
       </v-container>
     </v-content>
   </v-form>
+</div>
+</div>
 </template>
 <script>
 import Vue from 'vue';
