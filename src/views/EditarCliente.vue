@@ -5,15 +5,12 @@
         <h3 class="page-title">Cadastro Cliente</h3>
       </div>
       <div class="col-3 col-sm-3 text-center text-sm-right mb-0">
-        <d-button theme="success" class="mb-2 mr-1">Voltar</d-button>
+        <d-button theme="success" class="mb-2 mr-1" @click="back()">Voltar</d-button>
       </div>
   </div>
 <div class="col-12 col-sm-12 text-center text-sm-left mb-0">
   <v-form v-on:submit.prevent="cadastrar" ref="form" v-model="valid" lazy-validation>
     <v-content id="inspire">
-      <v-btn fab top right color="indigo" dark fixed to="/clientes">
-        <v-icon>arrow_back</v-icon>
-      </v-btn>
       <v-container grid-list-md>
         <v-layout row wrap>
           <v-flex xs12 sm5>
@@ -168,13 +165,13 @@
           </v-card>
         </v-layout>
         <v-flex xs12 sm4>
-          <d-button theme="success" class="mb-2 mr-1" :disabled="loading" @click="clear" type="reset">Cancelar</d-button>
+          <d-button theme="success" class="mb-2 mr-1" :disabled="loading" @click="clear" type="reset" to="/cadastro-clientes">Cancelar</d-button>
           <d-button theme="success" class="mb-2 mr-1" :loading="loading" :disabled="loading || !valid" type="submit">Salvar</d-button>
 
         </v-flex>
         <v-snackbar v-model="snackbar" :color="color" :multi-line="'multi-line'" :timeout="96000">
           {{ msg }}
-          <v-btn dark flat @click="snackbar = false" to="/clientes">
+          <v-btn dark flat @click="snackbar = false" to="/cadastro-clientes">
             Fechar
           </v-btn>
         </v-snackbar>
@@ -285,6 +282,9 @@ export default {
     },
   },
   methods: {
+    back() {
+      this.router.push('cadastro-clientes');
+    },
     addFilho() {
       const a = {};
       this.filhos.push(a);

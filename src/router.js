@@ -63,8 +63,8 @@ const router = new Router({
       meta: { requiresAuth: true },
     },
     {
-      path: '/editar-cliente',
-      name: 'editar-cliente',
+      path: '/addedit-cliente',
+      name: 'addedit-cliente',
       component: EditarCliente,
       meta: { requiresAuth: true },
     },
