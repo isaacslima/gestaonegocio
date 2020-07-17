@@ -6,7 +6,7 @@
         <h3 class="page-title">Clientes</h3>
       </div>
       <div class="col-3 col-sm-3 text-center text-sm-right mb-0">
-        <d-button theme="success" class="mb-2 mr-1">Novo Cliente</d-button>
+        <d-button theme="success" class="mb-2 mr-1" @click="newClient()">Novo Cliente</d-button>
       </div>
     </div>
 
@@ -72,6 +72,10 @@ export default {
     },
     verifyLogin() {
       this.$emit('logou');
+    },
+    newClient() {
+      console.log('teste');
+      this.$router.replace('cadastro-clientes');
     },
     confirmRemoveClient(key) {
       this.dialog = true;
