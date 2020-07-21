@@ -9,9 +9,8 @@
         <d-button theme="success" class="mb-2 mr-1" @click="newClient()">Novo Cliente</d-button>
       </div>
     </div>
-
     <div class="col-12 col-sm-12 text-center text-sm-left mb-0">
-      <d-card class="card-small mb-4" v-for="item in clientes" :key="item['.key']">
+      <d-card class="card-small mb-4" v-for="item in clientes" :key="item.key">
         <d-list-group flush>
           <d-list-group-item class="px-3">
             <h5>
@@ -23,7 +22,7 @@
           </d-list-group-item>
         </d-list-group>
         <d-list-group flush class="text-right">
-          <d-button size="sm" theme="primary" class="mb-2 btn-outline-light mr-1">
+          <d-button size="sm" theme="primary" class="mb-2 btn-outline-light mr-1" @click="editClient(item.key)">
             <i class="material-icons mr-1 bg-primary text-white">edit</i>Editar
           </d-button>
         </d-list-group>
@@ -66,16 +65,14 @@ export default {
   }),
   methods: {
     editClient(key) {
-      Vue.$localStorage.set('idEdita', key);
-      Vue.$localStorage.set('pagina', this.pagination.page);
-      this.$router.replace('edita-cliente');
+      this.$router.replace(`addedit-cliente/${key}`);
     },
     verifyLogin() {
       this.$emit('logou');
     },
     newClient() {
       console.log('teste');
-      this.$router.replace('cadastro-clientes');
+      this.$router.replace('/addedit-cliente/new');
     },
     confirmRemoveClient(key) {
       this.dialog = true;
@@ -92,7 +89,13 @@ export default {
   beforeMount() {
     const self = this;
     clientesRef.on('child_added', (snapshot) => {
-      self.clientes.push(snapshot.val());
+      const cliente = {
+        key: snapshot.key,
+        nome: snapshot.val().nome,
+        telefone: snapshot.val().telefone,
+        interessado: snapshot.val().interessado,
+      };
+      self.clientes.push(cliente);
     });
   },
 };

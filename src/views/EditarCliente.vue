@@ -9,7 +9,7 @@
       </div>
   </div>
 <div class="col-12 col-sm-12 text-center text-sm-left mb-0">
-  <v-form v-on:submit.prevent="cadastrar" ref="form" v-model="valid" lazy-validation>
+  <v-form v-on:submit.prevent="salvar" ref="form" v-model="valid" lazy-validation>
     <v-content id="inspire">
       <v-container grid-list-md>
         <v-layout row wrap>
@@ -183,10 +183,13 @@
 </template>
 <script>
 import Vue from 'vue';
+import axios from 'axios';
+import moment from 'moment';
 import Storage from 'vue-web-storage';
 import {
   clientesRef,
 } from '../firebase';
+
 
 Vue.use(Storage);
 
@@ -195,6 +198,7 @@ export default {
     obrigatorio: [
       v => !!v || 'Campo é obrigatório',
     ],
+    id: '',
     date: new Date().toISOString().substr(0, 10),
     dataContato: vm.formatDate(new Date().toISOString().substr(0, 10)),
     dateParto: new Date().toISOString().substr(0, 10),
@@ -248,6 +252,10 @@ export default {
   }),
   created() {
     this.verificaLogin();
+    this.id = this.$route.params.id;
+    if (this.id === 'new') {
+      return;
+    }
     this.buscaClientes();
   },
   watch: {
@@ -283,7 +291,7 @@ export default {
   },
   methods: {
     back() {
-      this.router.push('cadastro-clientes');
+      this.$router.replace('/cadastro-clientes');
     },
     addFilho() {
       const a = {};
@@ -296,7 +304,8 @@ export default {
       if (this.cep) {
         if (this.cep.length === 8) {
           const api = `https://viacep.com.br/ws/${this.cep}/json/`;
-          this.$http.get(api).then((response) => {
+          axios.get(api).then((response) => {
+            console.log(response);
             this.logradouro = response.data.logradouro;
             this.bairro = response.data.bairro;
             this.complemento = response.data.complemento;
@@ -308,7 +317,7 @@ export default {
     },
     buscaClientes() {
       const self = this;
-      self.idCliente = Vue.$localStorage.get('idEdita');
+      self.idCliente = this.id;
       clientesRef.orderByKey().equalTo(self.idCliente).on('child_added', (snapshot) => {
         self.nome = snapshot.val().nome;
         self.telefone = snapshot.val().telefone;
@@ -354,52 +363,138 @@ export default {
       const [day, month, year] = date.split('/');
       return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
     },
-    cadastrar() {
+    atualizaCliente() {
+      const self = this;
+      clientesRef.child(self.idCliente).update({
+        nome: self.nome,
+        telefone: self.telefone,
+        telefonePai: self.telefonePai,
+        instagram: self.instagram,
+        email: self.email,
+        dataContato: self.dataContato,
+        meioContato: self.meioContato,
+        indicacao: self.indicacao,
+        dataParto: self.dataParto,
+        aniversarioMae: self.aniversarioMae,
+        aniversarioCrianca: self.aniversarioCrianca,
+        nomePai: self.nomePai,
+        checkContrato: self.checkContrato,
+        dataContrato: self.dataContrato,
+        checkEnxoval: self.checkEnxoval,
+        dataEnxoval: self.dataEnxoval,
+        checkPortifolio: self.checkPortifolio,
+        dataPortifolio: self.dataPortifolio,
+        logradouro: self.logradouro,
+        numero: self.numero,
+        cep: self.cep,
+        bairro: self.bairro,
+        cidade: self.cidade,
+        uf: self.uf,
+        complemento: self.complemento,
+        observacao: self.observacao,
+        followup: self.followup,
+        interessado: self.interessado,
+      }).then(() => {
+        self.color = 'success';
+        self.msg = 'Cliente Atualizado com sucesso.';
+        self.snackbar = true;
+        self.$refs.form.reset();
+      }).catch((error) => {
+        self.color = 'error';
+        self.msg = `Cliente não foi atualizado erro: ${error}`;
+        self.snackbar = true;
+        self.loading = false;
+      });
+    },
+    salvar() {
       if (this.$refs.form.validate()) {
         this.loading = true;
-        const self = this;
-        clientesRef.child(self.idCliente).update({
-          nome: self.nome,
-          telefone: self.telefone,
-          telefonePai: self.telefonePai,
-          instagram: self.instagram,
-          email: self.email,
-          dataContato: self.dataContato,
-          meioContato: self.meioContato,
-          indicacao: self.indicacao,
-          dataParto: self.dataParto,
-          aniversarioMae: self.aniversarioMae,
-          aniversarioCrianca: self.aniversarioCrianca,
-          nomePai: self.nomePai,
-          checkContrato: self.checkContrato,
-          dataContrato: self.dataContrato,
-          checkEnxoval: self.checkEnxoval,
-          dataEnxoval: self.dataEnxoval,
-          checkPortifolio: self.checkPortifolio,
-          dataPortifolio: self.dataPortifolio,
-          logradouro: self.logradouro,
-          numero: self.numero,
-          cep: self.cep,
-          bairro: self.bairro,
-          cidade: self.cidade,
-          uf: self.uf,
-          complemento: self.complemento,
-          observacao: self.observacao,
-          followup: self.followup,
-          interessado: self.interessado,
-        }).then(() => {
+        if (this.id !== 'new') {
+          this.atualizaCliente();
+        } else this.cadastraCliente();
+      }
+    },
+    cadastraCliente() {
+      const self = this;
+      const dados = {
+        nome: this.nome,
+        telefone: this.telefone,
+        telefonePai: this.telefonePai,
+        instagram: this.instagram,
+        email: this.email,
+        dataContato: this.dataContato,
+        meioContato: this.meioContato,
+        indicacao: this.indicacao,
+        dataParto: this.dataParto,
+        aniversarioMae: this.aniversarioMae,
+        aniversarioCrianca: this.aniversarioCrianca,
+        nomePai: this.nomePai,
+        checkContrato: this.checkContrato,
+        dataContrato: this.dataContrato,
+        checkEnxoval: this.checkEnxoval,
+        dataEnxoval: this.dataEnxoval,
+        checkPortifolio: this.checkPortifolio,
+        dataPortifolio: this.dataPortifolio,
+        logradouro: this.logradouro,
+        numero: this.numero,
+        cep: this.cep,
+        bairro: this.bairro,
+        cidade: this.cidade,
+        uf: this.uf,
+        complemento: this.complemento,
+        observacao: this.observacao,
+        followup: this.followup,
+        interessado: this.interessado,
+        ativo: this.ativo,
+        horaLancamento: (moment().format('DD/MM/YYYY HH:mm:ss')),
+      };
+      clientesRef.orderByChild('nome').equalTo(this.nome).on('value', (snapshot) => {
+        if (snapshot.numChildren() === 0) {
+          clientesRef.push().set({
+            nome: dados.nome,
+            telefone: dados.telefone,
+            telefonePai: dados.telefonePai,
+            email: dados.email,
+            instagram: dados.instagram,
+            nomePai: dados.nomePai,
+            aniversarioMae: dados.aniversarioMae,
+            aniversarioCrianca: dados.aniversarioCrianca,
+            checkContrato: dados.checkContrato,
+            dataContrato: dados.dataContrato,
+            checkEnxoval: dados.checkEnxoval,
+            dataEnxoval: dados.dataEnxoval,
+            checkPortifolio: dados.checkPortifolio,
+            dataPortifolio: dados.dataPortifolio,
+            interessado: dados.interessado,
+            dataContato: dados.dataContato,
+            meioContato: dados.meioContato,
+            indicacao: dados.indicacao,
+            dataParto: dados.dataParto,
+            logradouro: dados.logradouro,
+            numero: dados.numero,
+            cep: dados.cep,
+            bairro: dados.bairro,
+            cidade: dados.cidade,
+            uf: dados.uf,
+            complemento: dados.complemento,
+            formulario: false,
+            observacao: dados.observacao,
+            followup: dados.followup,
+            ativo: dados.ativo,
+            horaLancamento: dados.horaLancamento,
+          });
+          self.msg = 'Cliente cadastrado com sucesso.';
           self.color = 'success';
-          self.msg = 'Cliente Atualizado com sucesso.';
           self.snackbar = true;
           self.loading = false;
           self.$refs.form.reset();
-        }).catch((error) => {
+        } else {
+          self.msg = 'Cliente já cadastrado.';
           self.color = 'error';
-          self.msg = `Cliente não foi atualizado erro: ${error}`;
           self.snackbar = true;
           self.loading = false;
-        });
-      }
+        }
+      });
     },
     clear() {
       this.loading = false;
