@@ -10,6 +10,7 @@ import ComponentsOverview from './views/ComponentsOverview.vue';
 import CadastroClientes from './views/CadastroClientes.vue';
 import AddEditClient from './views/AddEditClient.vue';
 import AddEditService from './views/AddEditService.vue';
+import AddEditInvoice from './views/AddEditInvoice.vue';
 import CadastroServicos from './views/CadastroServicos.vue';
 import Entradas from './views/Entradas.vue';
 import Saidas from './views/Saidas.vue';
@@ -73,6 +74,12 @@ const router = new Router({
       path: '/addedit-service/:id',
       name: 'addedit-service',
       component: AddEditService,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/addedit-invoice/:id',
+      name: 'addedit-invoice',
+      component: AddEditInvoice,
       meta: { requiresAuth: true },
     },
     {
