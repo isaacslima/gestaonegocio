@@ -19,6 +19,7 @@
                 <i class="material-icons mr-1 bg-success rounded text-white" v-if="item.interessado" >check</i>
                 <i class="material-icons mr-1 bg-danger rounded text-white" v-if="!item.interessado">close</i>
             </h5>
+             <h2>{{ item.aniversarioMae }}</h2>
              <div class="text-right">
               <d-button size="sm" theme="accent" class="mb-2 btn-outline-light mr-1" @click="editClient(item.key)">
                 <i class="material-icons mr-1 bg-primary text-white">edit</i>Editar
@@ -94,6 +95,7 @@ export default {
         nome: snapshot.val().nome,
         telefone: snapshot.val().telefone,
         interessado: snapshot.val().interessado,
+        aniversarioMae: snapshot.val().aniversarioMae,
       };
       self.clientes.push(cliente);
     });

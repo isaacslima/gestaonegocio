@@ -56,6 +56,9 @@ export default {
     };
   },
   methods: {
+    verifyLogin() {
+      this.$emit('logou');
+    },
     handleApprove(id) {
       alert(`Approving discussion id: ${id}`); // eslint-disable-line no-alert
     },
@@ -76,7 +79,9 @@ export default {
     const self = this;
     const data = new Date().getMonth() + 1;
     clientesRef.on('child_added', (snapshot) => {
-      if (parseInt(snapshot.val().aniversarioMae.substring(3, 5), 10) === data || parseInt(snapshot.val().aniversarioCrianca.substring(3, 5), 10) === data) {
+      const dataAniversarioMae = parseInt(snapshot.val().aniversarioMae.substring(3, 5), 10);
+      const dataAniversarioCrianca = parseInt(snapshot.val().aniversarioCrianca.substring(3, 5), 10);
+      if (dataAniversarioMae === data || dataAniversarioCrianca === data) {
         self.clientes.push(snapshot.val());
       }
     });
