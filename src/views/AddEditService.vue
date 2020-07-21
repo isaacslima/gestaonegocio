@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="col-12 col-sm-12 text-center text-sm-left mb-0">
-      <v-form v-on:submit.prevent="cadastrar" ref="form" v-model="valid" lazy-validation>
+      <v-form v-on:submit.prevent="salvar" ref="form" v-model="valid" lazy-validation>
         <v-content id="inspire">
           <v-container grid-list-md>
             <v-layout row wrap>
@@ -31,7 +31,7 @@
 
             <v-snackbar v-model="snackbar" :color="color" :multi-line="'multi-line'" :timeout="6000">
               {{ msg }}
-              <v-btn dark flat @click="snackbar = false">
+              <v-btn dark flat @click="back()">
                 Fechar
               </v-btn>
             </v-snackbar>
@@ -100,37 +100,61 @@ export default {
     verificaLogin() {
       this.$emit('logou');
     },
-    cadastrar() {
+    atualizaServico() {
+      const self = this;
+      servicosRef.child(this.id).update({
+        nome: self.nome,
+        preco: self.preco,
+        observacao: self.observacao,
+        ativo: self.ativo,
+      }).then(() => {
+        self.color = 'success';
+        self.msg = 'Cliente Atualizado com sucesso.';
+        self.snackbar = true;
+        self.$refs.form.reset();
+      }).catch((error) => {
+        self.color = 'error';
+        self.msg = `Cliente não foi atualizado erro: ${error}`;
+        self.snackbar = true;
+        self.loading = false;
+      });
+    },
+    cadastraServico() {
+      const self = this;
+      const dados = {
+        nome: this.nome,
+        preco: this.preco,
+        observacao: this.observacao,
+        ativo: this.ativo,
+        horaLancamento: (moment().format('DD/MM/YYYY HH:mm:ss')),
+      };
+      servicosRef.orderByChild('nome').equalTo(this.nome).on('value', (snapshot) => {
+        if (snapshot.numChildren() === 0) {
+          servicosRef.push().set({
+            nome: dados.nome,
+            ativo: dados.ativo,
+            observacao: dados.observacao,
+            preco: dados.preco,
+            horaLancamento: dados.horaLancamento,
+          });
+          self.msg = 'Serviço cadastrado com sucesso.';
+          self.color = 'success';
+          self.snackbar = true;
+          self.$refs.form.reset();
+        } else {
+          self.msg = 'Serviço com o mesmo nome já cadastrado.';
+          self.color = 'error';
+          self.snackbar = true;
+          self.loading = false;
+        }
+      });
+    },
+    salvar() {
       if (this.$refs.form.validate()) {
         this.loading = true;
-        const self = this;
-        const dados = {
-          nome: this.nome,
-          preco: this.preco,
-          observacao: this.observacao,
-          ativo: this.ativo,
-          horaLancamento: (moment().format('DD/MM/YYYY HH:mm:ss')),
-        };
-        servicosRef.orderByChild('nome').equalTo(this.nome).on('value', (snapshot) => {
-          if (snapshot.numChildren() === 0) {
-            servicosRef.push().set({
-              nome: dados.nome,
-              ativo: dados.ativo,
-              observacao: dados.observacao,
-              preco: dados.preco,
-              horaLancamento: dados.horaLancamento,
-            });
-            self.msg = 'Serviço cadastrado com sucesso.';
-            self.color = 'success';
-            self.snackbar = true;
-            self.$refs.form.reset();
-          } else {
-            self.msg = 'Serviço já cadastrado.';
-            self.color = 'error';
-            self.snackbar = true;
-            self.loading = false;
-          }
-        });
+        if (this.id !== 'new') {
+          this.atualizaServico();
+        } else this.cadastraServico();
       }
     },
     clear() {

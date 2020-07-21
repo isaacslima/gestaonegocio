@@ -316,8 +316,7 @@ export default {
     },
     buscaClientes() {
       const self = this;
-      self.idCliente = this.id;
-      clientesRef.orderByKey().equalTo(self.idCliente).on('child_added', (snapshot) => {
+      clientesRef.orderByKey().equalTo(this.id).on('child_added', (snapshot) => {
         self.nome = snapshot.val().nome;
         self.telefone = snapshot.val().telefone;
         self.email = snapshot.val().email;
@@ -364,7 +363,7 @@ export default {
     },
     atualizaCliente() {
       const self = this;
-      clientesRef.child(self.idCliente).update({
+      clientesRef.child(this.id).update({
         nome: self.nome,
         telefone: self.telefone,
         telefonePai: self.telefonePai,
