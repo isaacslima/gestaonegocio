@@ -165,9 +165,8 @@
           </v-card>
         </v-layout>
         <v-flex xs12 sm4>
-          <d-button theme="success" class="mb-2 mr-1" :disabled="loading" @click="clear" type="reset" to="/cadastro-clientes">Cancelar</d-button>
+          <d-button theme="danger" class="mb-2 mr-1" :disabled="loading" @click="clear" type="reset" to="/cadastro-clientes">Cancelar</d-button>
           <d-button theme="success" class="mb-2 mr-1" :loading="loading" :disabled="loading || !valid" type="submit">Salvar</d-button>
-
         </v-flex>
         <v-snackbar v-model="snackbar" :color="color" :multi-line="'multi-line'" :timeout="96000">
           {{ msg }}

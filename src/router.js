@@ -8,7 +8,8 @@ import Home from './views/Home.vue';
 import UserProfileLite from './views/UserProfileLite.vue';
 import ComponentsOverview from './views/ComponentsOverview.vue';
 import CadastroClientes from './views/CadastroClientes.vue';
-import EditarCliente from './views/EditarCliente.vue';
+import AddEditClient from './views/AddEditClient.vue';
+import AddEditService from './views/AddEditService.vue';
 import CadastroServicos from './views/CadastroServicos.vue';
 import Entradas from './views/Entradas.vue';
 import Saidas from './views/Saidas.vue';
@@ -65,7 +66,13 @@ const router = new Router({
     {
       path: '/addedit-cliente/:id',
       name: 'addedit-cliente',
-      component: EditarCliente,
+      component: AddEditClient,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/addedit-service/:id',
+      name: 'addedit-service',
+      component: AddEditService,
       meta: { requiresAuth: true },
     },
     {

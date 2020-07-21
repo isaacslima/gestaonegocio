@@ -6,11 +6,11 @@
         <h3 class="page-title">Servicos</h3>
       </div>
       <div class="col-3 col-sm-3 text-center text-sm-right mb-0">
-        <d-button theme="success" class="mb-2 mr-1">Novo Serviço</d-button>
+        <d-button theme="success" class="mb-2 mr-1" @click="newService()">Novo Serviço</d-button>
       </div>
     </div>
     <div class="col-12 col-sm-12 text-center text-sm-left mb-0">
-      <d-card class="card-small mb-4" v-for="item in servicos" :key="item['.key']">
+      <d-card class="card-small mb-4" v-for="item in servicos" :key="item.key">
         <d-list-group flush>
           <d-list-group-item class="px-3">
             <h5>
@@ -19,6 +19,9 @@
             <h5>
               Observação: {{ item.observacao }}
             </h5>
+            <d-button size="sm" theme="primary" class="mb-2 btn-outline-light mr-1" @click="editService(item.key)">
+              <i class="material-icons mr-1 bg-primary text-white">edit</i>Editar
+            </d-button>
           </d-list-group-item>
         </d-list-group>
         <d-list-group flush class="text-right">
@@ -47,19 +50,20 @@ export default {
     keys: [],
   }),
   methods: {
-    editClient(key) {
-      Vue.$localStorage.set('idEdita', key);
-      Vue.$localStorage.set('pagina', this.pagination.page);
-      this.$router.replace('edita-cliente');
+    newService() {
+      this.$router.replace('/addedit-service/new');
+    },
+    editService(key) {
+      this.$router.replace(`/addedit-service/${key}`);
     },
     verifyLogin() {
       this.$emit('logou');
     },
-    confirmRemoveClient(key) {
+    confirmRemoveService(key) {
       this.dialog = true;
       this.keyExclusao = key;
     },
-    removeClient() {
+    removeService() {
       servicosRef.child(this.keyExclusao).remove();
       this.dialog = false;
     },
@@ -71,6 +75,13 @@ export default {
     const self = this;
     servicosRef.on('child_added', (snapshot) => {
       self.servicos.push(snapshot.val());
+      const servico = {
+        key: snapshot.key,
+        nome: snapshot.val().nome,
+        preco: snapshot.val().preco,
+        observacao: snapshot.val().observacao,
+      };
+      self.servicos.push(servico);
     });
   },
 };
