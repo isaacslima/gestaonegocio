@@ -85,6 +85,15 @@ export default {
     this.buscaServico();
   },
   methods: {
+    buscaServico() {
+      const self = this;
+      servicosRef.orderByKey().equalTo(this.id).on('child_added', (snapshot) => {
+        self.ativo = snapshot.val().ativo;
+        self.nome = snapshot.val().nome;
+        self.observacao = snapshot.val().observacao;
+        self.preco = snapshot.val().preco;
+      });
+    },
     back() {
       this.$router.replace('/cadastro-servicos');
     },

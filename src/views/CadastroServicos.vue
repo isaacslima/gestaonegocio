@@ -19,15 +19,12 @@
             <h5>
               Observação: {{ item.observacao }}
             </h5>
-            <d-button size="sm" theme="primary" class="mb-2 btn-outline-light mr-1" @click="editService(item.key)">
-              <i class="material-icons mr-1 bg-primary text-white">edit</i>Editar
-            </d-button>
+            <div class="text-right">
+              <d-button size="sm" theme="accent" class="mb-2 btn-outline-light mr-1" @click="editService(item.key)">
+                <i class="material-icons mr-1 bg-primary text-white">edit</i>Editar
+              </d-button>
+            </div>
           </d-list-group-item>
-        </d-list-group>
-        <d-list-group flush class="text-right">
-          <d-button size="sm" theme="primary" class="mb-2 btn-outline-light mr-1">
-            <i class="material-icons mr-1 bg-primary text-white">edit</i>Editar
-          </d-button>
         </d-list-group>
       </d-card>
     </div>
@@ -54,6 +51,7 @@ export default {
       this.$router.replace('/addedit-service/new');
     },
     editService(key) {
+      console.log(key);
       this.$router.replace(`/addedit-service/${key}`);
     },
     verifyLogin() {
@@ -74,7 +72,6 @@ export default {
   beforeMount() {
     const self = this;
     servicosRef.on('child_added', (snapshot) => {
-      self.servicos.push(snapshot.val());
       const servico = {
         key: snapshot.key,
         nome: snapshot.val().nome,
