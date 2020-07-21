@@ -51,7 +51,6 @@ export default {
       this.$router.replace('/addedit-service/new');
     },
     editService(key) {
-      console.log(key);
       this.$router.replace(`/addedit-service/${key}`);
     },
     verifyLogin() {

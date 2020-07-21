@@ -24,12 +24,12 @@
                    <b>Valor:</b> {{ e.valor.toFixed(2) }} <br><b>Data Pagamento:</b> {{ e.dataPagamento }}</p>
               </d-card>
             </div>
+            <div class="text-right">
+              <d-button size="sm" theme="accent" class="mb-2 btn-outline-light mr-1" @click="editInvoice(item.key)">
+                <i class="material-icons mr-1 bg-primary text-white">edit</i>Editar
+              </d-button>
+            </div>
           </d-list-group-item>
-        </d-list-group>
-        <d-list-group flush class="text-right">
-          <d-button size="sm" theme="primary" class="mb-2 btn-outline-light mr-1">
-            <i class="material-icons mr-1 bg-primary text-white">edit</i>Editar
-          </d-button>
         </d-list-group>
       </d-card>
     </div>
@@ -52,10 +52,8 @@ export default {
     keys: [],
   }),
   methods: {
-    editClient(key) {
-      Vue.$localStorage.set('idEdita', key);
-      Vue.$localStorage.set('pagina', this.pagination.page);
-      this.$router.replace('edita-cliente');
+    editInvoice(key) {
+      this.$router.replace(`/addedit-invoice/${key}`);
     },
     verifyLogin() {
       this.$emit('logou');
@@ -75,7 +73,15 @@ export default {
   beforeMount() {
     const self = this;
     entradasRef.on('child_added', (snapshot) => {
-      self.entradas.push(snapshot.val());
+      const invoice = {
+        key: snapshot.key,
+        cliente: snapshot.val().cliente,
+        data: snapshot.val().data,
+        preco: snapshot.val().preco,
+        servico: snapshot.val().servico,
+        entradas: snapshot.val().entradas,
+      };
+      self.entradas.push(invoice);
     });
   },
 };
