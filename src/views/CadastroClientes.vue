@@ -19,12 +19,12 @@
                 <i class="material-icons mr-1 bg-success rounded text-white" v-if="item.interessado" >check</i>
                 <i class="material-icons mr-1 bg-danger rounded text-white" v-if="!item.interessado">close</i>
             </h5>
-          </d-list-group-item>
-        </d-list-group>
-        <d-list-group flush class="text-right">
-          <d-button size="sm" theme="primary" class="mb-2 btn-outline-light mr-1" @click="editClient(item.key)">
+             <div class="text-right">
+              <d-button size="sm" theme="accent" class="mb-2 btn-outline-light mr-1" @click="editClient(item.key)">
             <i class="material-icons mr-1 bg-primary text-white">edit</i>Editar
           </d-button>
+            </div>
+          </d-list-group-item>
         </d-list-group>
       </d-card>
     </div>
