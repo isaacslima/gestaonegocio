@@ -6,7 +6,7 @@
         <h3 class="page-title">Entradas</h3>
       </div>
       <div class="col-3 col-sm-3 text-center text-sm-right mb-0">
-        <d-button theme="success" class="mb-2 mr-1">Nova Entrada</d-button>
+        <d-button theme="success" class="mb-2 mr-1" @click="editInvoice('new')">Nova Entrada</d-button>
       </div>
     </div>
     <div class="col-12 col-sm-12 text-center text-sm-left mb-0">

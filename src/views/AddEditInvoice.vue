@@ -9,13 +9,9 @@
       </div>
     </div>
     <div class="col-12 col-sm-12 text-center text-sm-left mb-0">
-      <v-form v-on:submit.prevent="cadastrar" ref="form" v-model="valid" lazy-validation>
+      <v-form v-on:submit.prevent="salvar" ref="form" v-model="valid" lazy-validation>
         <v-content id="inspire">
-          <v-btn fab top right color="indigo" dark fixed to="/entradas">
-            <v-icon>arrow_back</v-icon>
-          </v-btn>
           <v-container grid-list-md>
-            <h2>Cadastro de Entrada</h2>
             <v-layout row wrap xs12>
               <v-flex xs12 sm5>
                 <v-autocomplete :items="clientes" v-model="cliente" item-text="nome" required label="Cliente">
@@ -57,7 +53,7 @@
                     </v-autocomplete>
                   </v-flex>
                   <v-flex xs12 sm2>
-                    <v-text-field mask="##/##/####" persistent-hint hint="dd/mm/aaaa">
+                    <v-text-field mask="##/##/####"  v-model="item.dataPagamento" persistent-hint hint="dd/mm/aaaa">
                     </v-text-field>
                   </v-flex>
                   <v-flex xs12 sm2>
@@ -68,21 +64,23 @@
                     <v-checkbox color="success" v-model="item.pago" label="Pago"></v-checkbox>
                   </v-flex>
                   <v-flex xs12 sm2>
-                    <v-btn color="error" @click="removeEntrada(item)">x</v-btn>
+                    <d-button size="sm" theme="danger" class="mb-2 btn-outline-light mr-1" @click="removeEntrada(item)">
+                      <i class="material-icons mr-1 bg-primary text-white">close</i>Remover Entrada
+                    </d-button>
                   </v-flex>
                 </v-layout>
               </v-card>
             </div>
-            <v-flex xs12 sm1 pt-3>
-              <v-btn color="info" @click="addEntrada">Adicionar Forma de Pagamento</v-btn>
-            </v-flex>
+            <div class="text-right">
+              <d-button theme="accent" class="mb-2 mr-1" @click="addEntrada">Adicionar Forma de Pagamento</d-button>
+            </div>
             <v-flex xs12 sm4>
-              <v-btn large color="primary" :loading="loading" :disabled="loading || !valid" type="submit">Salvar</v-btn>
-              <v-btn large type="reset" :disabled="loading" @click="clear">Cancelar</v-btn>
+              <d-button theme="danger" class="mb-2 mr-1" type="reset" :disabled="loading" @click="clear">Cancelar</d-button>
+              <d-button theme="success" class="mb-2 mr-1" :loading="loading" :disabled="loading || !valid" type="submit">Salvar</d-button>
             </v-flex>
             <v-snackbar v-model="snackbar" :color="color" :multi-line="'multi-line'" :timeout="6000">
               {{ msg }}
-              <v-btn dark flat @click="back()">
+              <v-btn dark text @click="back()">
                 Fechar
               </v-btn>
             </v-snackbar>
@@ -102,14 +100,12 @@ import {
 } from '../firebase';
 
 export default {
-  firebase: {
-    clientes: clientesRef,
-    servicos: servicosRef,
-  },
   data: vm => ({
     obrigatorio: [
       v => !!v || 'Campo é obrigatório',
     ],
+    servicos: [],
+    clientes: [],
     date: new Date().toISOString().substr(0, 10),
     data: vm.formatDate(new Date().toISOString().substr(0, 10)),
     dateFinal: new Date().toISOString().substr(0, 10),
@@ -146,6 +142,32 @@ export default {
   }),
   created() {
     this.verificaLogin();
+    this.id = this.$route.params.id;
+    if (this.id === 'new') {
+      return;
+    }
+    this.getInvoice();
+  },
+  beforeMount() {
+    const self = this;
+    clientesRef.on('child_added', (snapshot) => {
+      const client = {
+        key: snapshot.key,
+        nome: snapshot.val().nome,
+      };
+      self.clientes.push(client);
+    });
+    servicosRef.on('child_added', (snapshot) => {
+      const invoice = {
+        key: snapshot.key,
+        cliente: snapshot.val().cliente,
+        data: snapshot.val().data,
+        preco: snapshot.val().preco,
+        servico: snapshot.val().servico,
+        entradas: snapshot.val().entradas,
+      };
+      self.servicos.push(invoice);
+    });
   },
   computed: {
     computedDateFormatted() {
@@ -164,6 +186,17 @@ export default {
     },
   },
   methods: {
+    getInvoice() {
+      const self = this;
+      entradasRef.orderByKey().equalTo(this.id).on('child_added', (snapshot) => {
+        self.cliente = snapshot.val().cliente;
+        self.data = snapshot.val().data;
+        self.dataFinal = snapshot.val().dataFinal;
+        self.entradas = snapshot.val().entradas;
+        self.preco = snapshot.val().preco;
+        self.servico = snapshot.val().servico;
+      });
+    },
     back() {
       this.$router.replace('/entradas');
     },
@@ -199,7 +232,10 @@ export default {
     verificaLogin() {
       this.$emit('logou');
     },
-    cadastrar() {
+    salvar() {
+      if (true) {
+        return;
+      }
       if (this.$refs.form.validate()) {
         this.loading = true;
         const self = this;
