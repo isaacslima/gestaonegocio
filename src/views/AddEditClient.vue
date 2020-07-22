@@ -251,6 +251,7 @@ export default {
   }),
   created() {
     this.verificaLogin();
+    this.loading = false;
     this.id = this.$route.params.id;
     if (this.id === 'new') {
       return;
@@ -301,7 +302,7 @@ export default {
     },
     validaCEP() {
       if (this.cep) {
-        if (this.cep.length === 8) {
+        if (this.cep.length === 8 && !this.logradouro) {
           const api = `https://viacep.com.br/ws/${this.cep}/json/`;
           axios.get(api).then((response) => {
             console.log(response);
@@ -314,6 +315,12 @@ export default {
         }
       }
     },
+    voidIfUndefined(value) {
+      if (!value) {
+        return '';
+      }
+      return value;
+    },
     buscaClientes() {
       const self = this;
       clientesRef.orderByKey().equalTo(this.id).on('child_added', (snapshot) => {
@@ -324,11 +331,11 @@ export default {
         self.nomePai = snapshot.val().nomePai;
         self.formulario = snapshot.val().formulario;
         self.interessado = snapshot.val().interessado;
-        self.checkContrato = snapshot.val().checkContrato;
+        self.checkContrato = this.voidIfUndefined(snapshot.val().checkContrato);
         self.telefonePai = snapshot.val().telefonePai;
-        self.checkEnxoval = snapshot.val().checkEnxoval;
-        self.checkPortifolio = snapshot.val().checkPortifolio;
-        self.meioContato = snapshot.val().meioContato;
+        self.checkEnxoval = this.voidIfUndefined(snapshot.val().checkEnxoval);
+        self.checkPortifolio = this.voidIfUndefined(snapshot.val().checkPortifolio);
+        self.meioContato = this.voidIfUndefined(snapshot.val().meioContato);
         self.indicacao = snapshot.val().indicacao;
         self.ativo = snapshot.val().ativo;
         self.filhos = !snapshot.val().filhos ? self.addFilho() : snapshot.val().filhos;
@@ -340,12 +347,12 @@ export default {
         self.uf = snapshot.val().uf;
         self.bairro = snapshot.val().bairro;
         self.cidade = snapshot.val().cidade;
-        self.dataContrato = snapshot.val().dataContrato;
-        self.dataParto = snapshot.val().dataParto;
+        self.dataContrato = this.voidIfUndefined(snapshot.val().dataContrato);
+        self.dataParto = this.voidIfUndefined(snapshot.val().dataParto);
         self.aniversarioMae = snapshot.val().aniversarioMae;
-        self.aniversarioCrianca = snapshot.val().aniversarioCrianca;
-        self.dataEnxoval = snapshot.val().dataEnxoval;
-        self.dataPortifolio = snapshot.val().dataPortifolio;
+        self.aniversarioCrianca = this.voidIfUndefined(snapshot.val().aniversarioCrianca);
+        self.dataEnxoval = this.voidIfUndefined(snapshot.val().dataEnxoval);
+        self.dataPortifolio = this.voidIfUndefined(snapshot.val().dataPortifolio);
       });
     },
     verificaLogin() {
