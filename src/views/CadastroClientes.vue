@@ -2,6 +2,9 @@
   <div class="main-content-container container-fluid px-4">
     <!-- Page Header -->
     <div class="page-header row no-gutters py-4">
+      <div class="col-12">
+        <!-- <v-text-field solo clearable @click:prepend="doSearch()" prepend-icon="search" v-model="search" label="Pesquisar"></v-text-field> -->
+      </div>
       <div class="col-12 col-sm-9 text-center text-sm-left mb-0">
         <h3 class="page-title">Clientes</h3>
       </div>
@@ -19,7 +22,6 @@
                 <i class="material-icons mr-1 bg-success rounded text-white" v-if="item.interessado" >check</i>
                 <i class="material-icons mr-1 bg-danger rounded text-white" v-if="!item.interessado">close</i>
             </h5>
-             <h2>{{ item.aniversarioMae }}</h2>
              <div class="text-right">
               <d-button size="sm" theme="accent" class="mb-2 btn-outline-light mr-1" @click="editClient(item.key)">
                 <i class="material-icons mr-1 bg-primary text-white">edit</i>Editar
@@ -65,6 +67,14 @@ export default {
     ],
   }),
   methods: {
+    doSearch() {
+      const self = this;
+      // const clientesFiltered = this.clientes.filter((el) => {
+      //   return el.nome = el.nome.includes(self.search);
+      // })
+      const newArray = this.clientes.filter(this.nome.includes(self.search));
+      this.clientes = newArray;
+    },
     editClient(key) {
       this.$router.replace(`addedit-cliente/${key}`);
     },
@@ -72,7 +82,6 @@ export default {
       this.$emit('logou');
     },
     newClient() {
-      console.log('teste');
       this.$router.replace('/addedit-cliente/new');
     },
     confirmRemoveClient(key) {

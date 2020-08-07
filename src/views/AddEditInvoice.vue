@@ -75,7 +75,7 @@
               <d-button theme="accent" class="mb-2 mr-1" @click="addEntrada">Adicionar Forma de Pagamento</d-button>
             </div>
             <v-flex xs12 sm4>
-              <d-button theme="danger" class="mb-2 mr-1" type="reset" :disabled="loading" @click="clear">Cancelar</d-button>
+              <d-button theme="danger" class="mb-2 mr-1" type="reset" :disabled="loading" @click="back()">Cancelar</d-button>
               <d-button theme="success" class="mb-2 mr-1" :loading="loading" :disabled="loading || !valid" type="submit">Salvar</d-button>
             </v-flex>
             <v-snackbar v-model="snackbar" :color="color" :multi-line="'multi-line'" :timeout="6000">
@@ -232,10 +232,28 @@ export default {
     verificaLogin() {
       this.$emit('logou');
     },
-    salvar() {
-      if (true) {
-        return;
-      }
+    updateInvoice() {
+      const self = this;
+      entradasRef.child(this.id).update({
+        cliente: self.cliente,
+        servico: self.servico,
+        data: self.data,
+        preco: self.preco,
+        dataFinal: self.dataFinal,
+        entradas: self.entradas,
+      }).then(() => {
+        self.color = 'success';
+        self.msg = 'Entrada Atualizada com sucesso.';
+        self.snackbar = true;
+        self.$refs.form.reset();
+      }).catch((error) => {
+        self.color = 'error';
+        self.msg = `Entrada não foi atualizada erro: ${error}`;
+        self.snackbar = true;
+        self.loading = false;
+      });
+    },
+    insertInvoice() {
       if (this.$refs.form.validate()) {
         this.loading = true;
         const self = this;
@@ -254,8 +272,15 @@ export default {
         self.msg = 'Serviço cadastrado com sucesso.';
         self.color = 'success';
         self.snackbar = true;
-        self.loading = false;
         self.$refs.form.reset();
+      }
+    },
+    salvar() {
+      if (this.$refs.form.validate()) {
+        this.loading = true;
+        if (this.id !== 'new') {
+          this.updateInvoice();
+        } else this.insertInvoice();
       }
     },
     clear() {
