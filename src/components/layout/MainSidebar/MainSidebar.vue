@@ -8,7 +8,7 @@
               <span v-if="!hideLogoText" class="d-none d-md-inline ml-1">Espaço Materno</span>
             </div>
           </a>
-          <a class="toggle-sidebar d-sm-inline d-md-none d-lg-none" @click="handleToggleSidebar()">
+          <a class="toggle-sidebar d-sm-inline d-md-none d-lg-none teste" @click="handleToggleSidebar()">
             <i class="material-icons">&#xE5C4;</i>
           </a>
         </nav>
