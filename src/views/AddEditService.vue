@@ -5,7 +5,7 @@
         <h3 class="page-title">Cadastro Serviço</h3>
       </div>
       <div class="col-3 col-sm-3 text-center text-sm-right mb-0">
-        <d-button theme="success" class="mb-2 mr-1" @click="back()">Voltar</d-button>
+        <v-btn small style="background-color: green" dark class="mb-2 mr-1" @click="back()">Voltar</v-btn>
       </div>
     </div>
     <div class="col-12 col-sm-12 text-center text-sm-left mb-0">
@@ -25,8 +25,8 @@
               </v-flex>
             </v-layout>
             <v-flex xs12 sm4>
-                <d-button theme="danger" class="mb-2 mr-1" :disabled="loading" @click="back()">Cancelar</d-button>
-                <d-button theme="success" class="mb-2 mr-1" :loading="loading" :disabled="loading || !valid" type="submit">Salvar</d-button>
+                <v-btn small style="background-color: red" dark class="mb-2 mr-1" :disabled="loading" @click="back()">Cancelar</v-btn>
+                <v-btn small style="background-color: green" dark class="mb-2 mr-1" :loading="loading" :disabled="loading || !valid" type="submit">Salvar</v-btn>
             </v-flex>
 
             <v-snackbar v-model="snackbar" :color="color" :multi-line="'multi-line'" :timeout="6000">

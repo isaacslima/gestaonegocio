@@ -5,7 +5,7 @@
         <h3 class="page-title">Cadastro Entrada</h3>
       </div>
       <div class="col-3 col-sm-3 text-center text-sm-right mb-0">
-        <d-button theme="success" class="mb-2 mr-1" @click="back()">Voltar</d-button>
+        <v-btn small class="mb-2 mr-1" style="background-color: green" dark @click="back()">Voltar</v-btn>
       </div>
     </div>
     <div class="col-12 col-sm-12 text-center text-sm-left mb-0">
@@ -64,19 +64,20 @@
                     <v-checkbox color="success" v-model="item.pago" label="Pago"></v-checkbox>
                   </v-flex>
                   <v-flex xs12 sm2>
-                    <d-button size="sm" theme="danger" class="mb-2 btn-outline-light mr-1" @click="removeEntrada(item)">
-                      <i class="material-icons mr-1 bg-primary text-white">close</i>Remover Entrada
-                    </d-button>
+                    <v-btn class="mb-2 btn-outline-light mr-1" small style="background-color: red" dark @click="removeEntrada(item)">
+                      <i class="material-icons mr-1 text-white">close</i>Remover Pagamento
+                    </v-btn>
+
                   </v-flex>
                 </v-layout>
               </v-card>
             </div>
             <div class="text-right">
-              <d-button theme="accent" class="mb-2 mr-1" @click="addEntrada">Adicionar Forma de Pagamento</d-button>
+              <v-btn small style="background-color: blue" dark class="mb-2 mr-1" @click="addEntrada()">Adicionar Forma de Pagamento</v-btn>
             </div>
             <v-flex xs12 sm4>
-              <d-button theme="danger" class="mb-2 mr-1" type="reset" :disabled="loading" @click="back()">Cancelar</d-button>
-              <d-button theme="success" class="mb-2 mr-1" :loading="loading" :disabled="loading || !valid" type="submit">Salvar</d-button>
+              <v-btn small style="background-color: red" dark  class="mb-2 mr-1" type="reset" :disabled="loading" @click="back()">Cancelar</v-btn>
+              <v-btn small style="background-color: green" dark  class="mb-2 mr-1" :loading="loading" :disabled="loading || !valid" type="submit">Salvar</v-btn>
             </v-flex>
             <v-snackbar v-model="snackbar" :color="color" :multi-line="'multi-line'" :timeout="6000">
               {{ msg }}
