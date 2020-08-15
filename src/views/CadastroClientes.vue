@@ -9,7 +9,7 @@
         <h3 class="page-title">Clientes</h3>
       </div>
       <div class="col-3 col-sm-3 text-center text-sm-right mb-0">
-        <d-button theme="success" class="mb-2 mr-1" @click="newClient()">Novo Cliente</d-button>
+        <v-btn small class="mb-2 mr-1" style="background-color: green" dark @click="newClient()">Novo Cliente</v-btn>
       </div>
     </div>
     <div class="col-12 col-sm-12 text-center text-sm-left mb-0">
@@ -23,9 +23,9 @@
                 <i class="material-icons mr-1 bg-danger rounded text-white" v-if="!item.interessado">close</i>
             </h5>
              <div class="text-right">
-              <d-button size="sm" theme="accent" class="mb-2 btn-outline-light mr-1" @click="editClient(item.key)">
-                <i class="material-icons mr-1 bg-primary text-white">edit</i>Editar
-              </d-button>
+               <v-btn small class="mb-2 mr-1" style="background-color: blue" dark @click="editClient(item.key)">
+                 <i class="material-icons mr-1 text-white">edit</i>Editar
+               </v-btn>
             </div>
           </d-list-group-item>
         </d-list-group>
