@@ -6,7 +6,7 @@
         <h3 class="page-title">Entradas</h3>
       </div>
       <div class="col-3 col-sm-3 text-center text-sm-right mb-0">
-        <d-button theme="success" class="mb-2 mr-1" @click="editInvoice('new')">Nova Entrada</d-button>
+        <v-btn small style="background-color: green" dark class="mb-2 mr-1" @click="editInvoice('new')">Nova Entrada</v-btn>
       </div>
     </div>
     <div class="col-12 col-sm-12 text-center text-sm-left mb-0">
@@ -25,9 +25,9 @@
               </d-card>
             </div>
             <div class="text-right">
-              <d-button size="sm" theme="accent" class="mb-2 btn-outline-light mr-1" @click="editInvoice(item.key)">
-                <i class="material-icons mr-1 bg-primary text-white">edit</i>Editar
-              </d-button>
+              <v-btn small style="background-color: blue" dark class="mb-2 btn-outline-light mr-1" @click="editInvoice(item.key)">
+                <i class="material-icons mr-1 text-white">edit</i>Editar
+              </v-btn>
             </div>
           </d-list-group-item>
         </d-list-group>

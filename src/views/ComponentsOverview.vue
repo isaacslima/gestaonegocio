@@ -96,13 +96,6 @@
                 <strong class="text-muted d-block my-2">Small Buttons</strong>
                 <d-row class="mb-3">
                   <d-col>
-                    <d-button size="sm" theme="primary" class="mb-2 mr-1">Primary</d-button>
-                    <d-button size="sm" theme="secondary" class="mb-2 mr-1">Secondary</d-button>
-                    <d-button size="sm" theme="success" class="mb-2 mr-1">Success</d-button>
-                    <d-button size="sm" theme="danger" class="mb-2 mr-1">Danger</d-button>
-                    <d-button size="sm" theme="warning" class="mb-2 mr-1">Warning</d-button>
-                    <d-button size="sm" theme="info" class="mb-2 mr-1">Info</d-button>
-                    <d-button size="sm" theme="dark" class="mb-2 mr-1">Dark</d-button>
                     <d-button size="sm" class="mb-2 btn-white mr-1">White</d-button>
                     <d-button size="sm" class="mb-2 btn-royal-blue mr-1">Royal Blue</d-button>
                     <d-button size="sm" class="mb-2 btn-java mr-1">Java</d-button>
@@ -114,13 +107,6 @@
                 <strong class="text-muted d-block my-2">Small Outline Button</strong>
                 <d-row>
                   <d-col>
-                    <d-button size="sm" outline theme="primary" class="mb-2 mr-1">Primary</d-button>
-                    <d-button size="sm" outline theme="secondary" class="mb-2 mr-1">Secondary</d-button>
-                    <d-button size="sm" outline theme="success" class="mb-2 mr-1">Success</d-button>
-                    <d-button size="sm" outline theme="danger" class="mb-2 mr-1">Danger</d-button>
-                    <d-button size="sm" outline theme="warning" class="mb-2 mr-1">Warning</d-button>
-                    <d-button size="sm" outline theme="info" class="mb-2 mr-1">Info</d-button>
-                    <d-button size="sm" outline theme="dark" class="mb-2 mr-1">Dark</d-button>
                     <d-button size="sm" class="mb-2 btn-outline-light mr-1">Light</d-button>
                     <d-button size="sm" class="mb-2 btn-outline-royal-blue mr-1">Royal Blue</d-button>
                     <d-button size="sm" class="mb-2 btn-outline-java mr-1">Java</d-button>
@@ -136,13 +122,6 @@
                 <strong class="text-muted d-block my-2">Normal Buttons</strong>
                 <d-row>
                   <d-col>
-                    <d-button theme="primary" class="mb-2 mr-1">Primary</d-button>
-                    <d-button theme="secondary" class="mb-2 mr-1">Secondary</d-button>
-                    <d-button theme="success" class="mb-2 mr-1">Success</d-button>
-                    <d-button theme="danger" class="mb-2 mr-1">Danger</d-button>
-                    <d-button theme="warning" class="mb-2 mr-1">Warning</d-button>
-                    <d-button theme="info" class="mb-2 mr-1">Info</d-button>
-                    <d-button theme="dark" class="mb-2 mr-1">Dark</d-button>
                     <d-button class="mb-2 btn-white mr-1">White</d-button>
                     <d-button class="mb-2 btn-royal-blue mr-1">Royal Blue</d-button>
                   </d-col>
@@ -152,13 +131,6 @@
                 <strong class="text-muted d-block my-2">Normal Outline Buttons</strong>
                 <d-row>
                   <d-col>
-                    <d-button outline theme="primary" class="mb-2 mr-1">Primary</d-button>
-                    <d-button outline theme="secondary" class="mb-2 mr-1">Secondary</d-button>
-                    <d-button outline theme="success" class="mb-2 mr-1">Success</d-button>
-                    <d-button outline theme="danger" class="mb-2 mr-1">Danger</d-button>
-                    <d-button outline theme="warning" class="mb-2 mr-1">Warning</d-button>
-                    <d-button outline theme="info" class="mb-2 mr-1">Info</d-button>
-                    <d-button outline theme="dark" class="mb-2 mr-1">Dark</d-button>
                     <d-button class="mb-2 btn-outline-light mr-1">Light</d-button>
                     <d-button class="mb-2 btn-outline-royal-blue mr-1">Royal Blue</d-button>
                   </d-col>
@@ -308,9 +280,6 @@
                   <strong class="text-muted d-block mb-3">Progress Bars</strong>
 
                   <d-progress height="5px" class="mb-3" :value="20" :max="100" />
-                  <d-progress theme="royal-blue" height="5px" class="mb-3" :value="40" :max="100" />
-                  <d-progress theme="salmon" height="5px" class="mb-3" :value="60" :max="100" />
-                  <d-progress theme="warning" height="5px" class="mb-3" :value="80" :max="100" />
                 </div>
               </d-list-group-item>
               <d-list-group-item class="px-3">
