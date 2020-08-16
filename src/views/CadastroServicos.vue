@@ -21,7 +21,10 @@
             </h5>
             <div class="text-right">
               <v-btn small style="background-color: blue" dark class="mb-2 btn-outline-light mr-1" @click="editService(item.key)">
-                <i class="material-icons mr-1 bg-primary text-white">edit</i>Editar
+                <i class="material-icons mr-1 text-white">edit</i>Editar
+              </v-btn>
+              <v-btn small style="background-color: red" dark class="mb-2 btn-outline-light mr-1" @click="confirmRemoveService(item.key)">
+                <i class="material-icons mr-1 text-white">close</i>Remover
               </v-btn>
             </div>
           </d-list-group-item>
