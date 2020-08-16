@@ -6,7 +6,7 @@
         <h3 class="page-title">Servicos</h3>
       </div>
       <div class="col-3 col-sm-3 text-center text-sm-right mb-0">
-        <d-button theme="success" class="mb-2 mr-1" @click="newService()">Novo Serviço</d-button>
+        <v-btn small style="background-color: red" dark class="mb-2 mr-1" @click="newService()">Novo Serviço</v-btn>
       </div>
     </div>
     <div class="col-12 col-sm-12 text-center text-sm-left mb-0">
@@ -20,9 +20,9 @@
               Observação: {{ item.observacao }}
             </h5>
             <div class="text-right">
-              <d-button size="sm" theme="accent" class="mb-2 btn-outline-light mr-1" @click="editService(item.key)">
+              <v-btn small style="background-color: blue" dark class="mb-2 btn-outline-light mr-1" @click="editService(item.key)">
                 <i class="material-icons mr-1 bg-primary text-white">edit</i>Editar
-              </d-button>
+              </v-btn>
             </div>
           </d-list-group-item>
         </d-list-group>
