@@ -1,21 +1,14 @@
 <template>
-  <div class="main-content-container container-fluid px-4">
-    <!-- Page Header -->
+  <div >
+    <v-app-bar app style="background-color: #759F89" color="blue-grey" dark >
+      Cadastro de Clientes
+    </v-app-bar>
     <div class="page-header row no-gutters py-4">
-      <div class="col-12">
-        <!-- <v-text-field solo clearable @click:prepend="doSearch()" prepend-icon="search" v-model="search" label="Pesquisar"></v-text-field> -->
-      </div>
-      <div class="col-12 col-sm-9 text-center text-sm-left mb-0">
-        <h3 class="page-title">Clientes</h3>
-      </div>
-      <div class="col-3 col-sm-3 text-center text-sm-right mb-0">
-        <v-btn small class="mb-2 mr-1" style="background-color: green" dark @click="newClient()">Novo Cliente</v-btn>
-      </div>
     </div>
+    <v-btn small class="mb-2 mr-1" style="background-color: green" dark @click="newClient()">Novo Cliente</v-btn>
     <div class="col-12 col-sm-12 text-center text-sm-left mb-0">
-      <d-card class="card-small mb-4" v-for="item in clientes" :key="item.key">
-        <d-list-group flush>
-          <d-list-group-item class="px-3">
+      <v-card class="card-small mb-4" v-for="item in clientes" :key="item.key">
+        <v-card-text flush>
             <h5>
               <b>Nome:</b> {{ item.nome }} <b>Telefone:</b> {{ item.telefone }}
               <b>Interessado: </b>
@@ -27,9 +20,8 @@
                  <i class="material-icons mr-1 text-white">edit</i>Editar
                </v-btn>
             </div>
-          </d-list-group-item>
-        </d-list-group>
-      </d-card>
+        </v-card-text>
+      </v-card>
     </div>
     <v-dialog>
     </v-dialog>
