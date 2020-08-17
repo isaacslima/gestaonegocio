@@ -59,18 +59,6 @@ export default {
     verifyLogin() {
       this.$emit('logou');
     },
-    handleApprove(id) {
-      alert(`Approving discussion id: ${id}`); // eslint-disable-line no-alert
-    },
-    handleReject(id) {
-      alert(`Rejecting discussion id: ${id}`); // eslint-disable-line no-alert
-    },
-    handleEdit(id) {
-      alert(`Editing discussion id: ${id}`); // eslint-disable-line no-alert
-    },
-    handleViewAllComments() {
-      alert('Viewing all comments!'); // eslint-disable-line no-alert
-    },
   },
   created() {
     this.verifyLogin();

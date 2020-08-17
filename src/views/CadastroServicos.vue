@@ -1,5 +1,41 @@
 <template>
-  <div class="main-content-container container-fluid px-4">
+  <div fluid class="main-content-container container-fluid px-4">
+    <v-row justify="center">
+      <template>
+      <v-dialog
+        v-model="dialog"
+        max-width="290"
+      >
+        <v-card>
+          <v-card-title class="headline">Use Google's location service?</v-card-title>
+
+          <v-card-text>
+            Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn
+              color="green darken-1"
+              text
+              @click="dialog = false"
+            >
+              Disagree
+            </v-btn>
+
+            <v-btn
+              color="green darken-1"
+              text
+              @click="dialog = false"
+            >
+              Agree
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      </template>
+    </v-row>
     <!-- Page Header -->
     <div class="page-header row no-gutters py-4">
       <div class="col-12 col-sm-9 text-center text-sm-left mb-0">
@@ -10,9 +46,8 @@
       </div>
     </div>
     <div class="col-12 col-sm-12 text-center text-sm-left mb-0">
-      <d-card class="card-small mb-4" v-for="item in servicos" :key="item.key">
-        <d-list-group flush>
-          <d-list-group-item class="px-3">
+      <v-card class="card-small mb-4" v-for="item in servicos" :key="item.key">
+          <v-card-text class="px-3">
             <h5>
               <b>Nome:</b> {{ item.nome }} <b>Preço:</b> R$ {{ item.preco.toFixed(2) }}
             </h5>
@@ -27,9 +62,8 @@
                 <i class="material-icons mr-1 text-white">close</i>Remover
               </v-btn>
             </div>
-          </d-list-group-item>
-        </d-list-group>
-      </d-card>
+          </v-card-text>
+      </v-card>
     </div>
   </div>
 </template>

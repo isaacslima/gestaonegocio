@@ -5,8 +5,6 @@ import firebase from 'firebase';
 import NProgress from 'nprogress';
 
 import Home from './views/Home.vue';
-import UserProfileLite from './views/UserProfileLite.vue';
-import ComponentsOverview from './views/ComponentsOverview.vue';
 import CadastroClientes from './views/CadastroClientes.vue';
 import AddEditClient from './views/AddEditClient.vue';
 import AddEditService from './views/AddEditService.vue';
@@ -44,18 +42,6 @@ const router = new Router({
       path: '/home',
       name: 'home',
       component: Home,
-      meta: { requiresAuth: true },
-    },
-    {
-      path: '/user-profile-lite',
-      name: 'user-profile-lite',
-      component: UserProfileLite,
-      meta: { requiresAuth: true },
-    },
-    {
-      path: '/components',
-      name: 'components',
-      component: ComponentsOverview,
       meta: { requiresAuth: true },
     },
     {

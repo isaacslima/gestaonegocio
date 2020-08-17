@@ -1,6 +1,5 @@
 /* eslint-disable */
 import Vue from 'vue';
-import ShardsVue from 'shards-vue';
 import firebase from 'firebase';
 import './firebase'
 import money from 'v-money'
@@ -8,7 +7,6 @@ Vue.use(money, { precision: 4 })
 
 // Styles
 import 'bootstrap/dist/css/bootstrap.css';
-import '@/scss/shards-dashboards.scss';
 import '@/assets/scss/date-range.scss';
 
 // Core
@@ -19,8 +17,6 @@ import router from './router';
 import Default from '@/layouts/Default.vue';
 
 import vuetify from './plugins/vuetify';
-
-ShardsVue.install(Vue);
 
 Vue.component('default-layout', Default);
 

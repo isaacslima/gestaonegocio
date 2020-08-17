@@ -67,7 +67,6 @@ export default {
     },
     salvaUid () {
       var user = firebase.auth().currentUser
-      console.log(user);
       Vue.$localStorage.set('id', user.uid)
     },
   }
