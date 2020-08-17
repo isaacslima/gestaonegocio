@@ -10,6 +10,7 @@ import AddEditClient from './views/AddEditClient.vue';
 import AddEditService from './views/AddEditService.vue';
 import AddEditInvoice from './views/AddEditInvoice.vue';
 import CadastroServicos from './views/CadastroServicos.vue';
+import FormClient from './views/FormClient.vue';
 import Entradas from './views/Entradas.vue';
 import Saidas from './views/Saidas.vue';
 import Login from './auth/Login.vue';
@@ -85,6 +86,11 @@ const router = new Router({
       name: 'saidas',
       component: Saidas,
       meta: { requiresAuth: true },
+    },
+    {
+      path: '/formulario',
+      name: 'formulario',
+      component: FormClient,
     },
   ],
 });
