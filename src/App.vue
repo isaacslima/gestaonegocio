@@ -1,16 +1,12 @@
 <template>
   <div>
     <v-app-bar app color="blue-grey" dark v-if="login">
-      <div class="d-flex align-center" to="/home">
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      </div>
       <v-spacer></v-spacer>
     </v-app-bar>
     <v-navigation-drawer v-if="login" v-model="drawer" :mini-variant.sync="mini" absolute permanent app>
-      <img to="/home" src="./assets/images/image-logo.png" style="width:100%">
       <v-list-item class="px-2">
         <v-list-item-avatar>
-          <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
+          <v-img src="@/assets/images/logo-materno.png"></v-img>
         </v-list-item-avatar>
 
         <v-list-item-title>Bem Vindo</v-list-item-title>
@@ -56,22 +52,6 @@
             <v-list-item-title>Entradas</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item to="/saidas">
-          <v-list-item-icon>
-            <v-icon>mdi-account-cash-outline</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Saídas</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item to="/usuarios">
-          <v-list-item-icon>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Usuarios</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
         <v-list-item @click="logout">
           <v-list-item-icon>
             <v-icon>mdi-arrow-left</v-icon>
@@ -82,7 +62,9 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <router-view />
+    <v-container>
+      <router-view />
+    </v-container>
   </div>
 </template>
 
