@@ -1,12 +1,11 @@
 <template>
   <div >
-    <v-app-bar app style="background-color: #759F89" color="blue-grey" dark >
+    <v-app-bar dense app style="background-color: #759F89" color="blue-grey" dark >
       Cadastro de Clientes
+      <v-spacer></v-spacer>
+      <v-btn small class="mb-2 mr-1" style="background-color: green" dark @click="newClient()">Novo Cliente</v-btn>
     </v-app-bar>
-    <div class="page-header row no-gutters py-4">
-    </div>
-    <v-btn small class="mb-2 mr-1" style="background-color: green" dark @click="newClient()">Novo Cliente</v-btn>
-    <div class="col-12 col-sm-12 text-center text-sm-left mb-0">
+    <div class="col-12 col-sm-12 text-center text-sm-left mb-0 mt-4">
       <v-card class="card-small mb-4" v-for="item in clientes" :key="item.key">
         <v-card-text flush>
             <h5>
@@ -23,8 +22,6 @@
         </v-card-text>
       </v-card>
     </div>
-    <v-dialog>
-    </v-dialog>
   </div>
 </template>
 
