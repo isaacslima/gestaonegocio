@@ -305,7 +305,6 @@ export default {
         if (this.cep.length === 8 && !this.logradouro) {
           const api = `https://viacep.com.br/ws/${this.cep}/json/`;
           axios.get(api).then((response) => {
-            console.log(response);
             this.logradouro = response.data.logradouro;
             this.bairro = response.data.bairro;
             this.complemento = response.data.complemento;
