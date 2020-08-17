@@ -1,9 +1,6 @@
 <template>
   <div>
-    <v-app-bar app color="blue-grey" dark v-if="login">
-      <v-spacer></v-spacer>
-    </v-app-bar>
-    <v-navigation-drawer v-if="login" v-model="drawer" :mini-variant.sync="mini" absolute permanent app>
+    <v-navigation-drawer v-if="login" v-model="drawer" :mini-variant.sync="mini" permanent app>
       <v-list-item class="px-2">
         <v-list-item-avatar>
           <v-img src="@/assets/images/logo-materno.png"></v-img>
