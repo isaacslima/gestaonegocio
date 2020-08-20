@@ -195,12 +195,14 @@ export default {
     getInvoice() {
       const self = this;
       entradasRef.orderByKey().equalTo(this.id).on('child_added', (snapshot) => {
-        self.cliente = snapshot.val().cliente;
+        self.cliente = snapshot.val().clienteSelecionado;
+        self.keyCliente = snapshot.val().cliente;
         self.data = snapshot.val().data;
         self.dataFinal = snapshot.val().dataFinal;
         self.entradas = snapshot.val().entradas;
         self.preco = snapshot.val().preco;
-        self.servico = snapshot.val().servico;
+        self.servico = snapshot.val().servicoSelecionado;
+        self.keyService = snapshot.val().servico;
       });
     },
     back() {
@@ -242,8 +244,10 @@ export default {
     updateInvoice() {
       const self = this;
       entradasRef.child(this.id).update({
-        cliente: self.cliente,
-        servico: self.servico,
+        cliente: self.clienteSelecionado,
+        keyCliente: self.cliente,
+        servico: self.servicoSelecionado,
+        keyService: self.servico,
         data: self.data,
         preco: self.preco,
         dataFinal: self.dataFinal,
