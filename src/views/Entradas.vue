@@ -1,4 +1,5 @@
 <template>
+<v-app id="crudInvoice">
   <div>
     <v-app-bar dense app style="background-color: #759F89" color="blue-grey" dark >
       Cadastro de Entradas
@@ -23,11 +24,43 @@
             <v-btn small style="background-color: blue" dark class="mb-2 btn-outline-light mr-1" @click="editInvoice(item.key)">
               <i class="material-icons mr-1 text-white">edit</i>Editar
             </v-btn>
+            <v-btn small style="background-color: red" dark class="mb-2 btn-outline-light mr-1" @click="confirmRemoveInvoice(item.key, item.cliente, item.servico)">
+                <i class="material-icons mr-1 text-white">close</i>Remover
+            </v-btn>
           </div>
         </v-card-text>
       </v-card>
     </div>
   </div>
+  <v-row>
+      <v-dialog v-model="dialog" max-width="360">
+        <v-card>
+          <v-card-title class="headline">Deseja realmente remover a entrada?</v-card-title>
+          <v-card-text>
+            Do cliente: {{ nomeCliente }}<br>
+            Serviço: {{ nomeServico }}
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="green darken-1"
+              text
+              @click="dialog = false"
+            >
+              Não
+            </v-btn>
+            <v-btn
+              color="green darken-1"
+              text
+              @click="removeInvoice()"
+            >
+              Sim
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
+</v-app>
 </template>
 
 <script>
@@ -42,6 +75,8 @@ export default {
     search: '',
     entradas: [],
     dialog: false,
+    nomeCliente: '',
+    nomeServico: '',
     keyExclusao: false,
     keys: [],
   }),
@@ -52,31 +87,37 @@ export default {
     verifyLogin() {
       this.$emit('logou');
     },
-    confirmRemoveClient(key) {
+    confirmRemoveInvoice(key, nomeCliente, nomeServico) {
       this.dialog = true;
+      this.nomeCliente = nomeCliente;
+      this.nomeServico = nomeServico;
       this.keyExclusao = key;
     },
-    removeClient() {
+    removeInvoice() {
       entradasRef.child(this.keyExclusao).remove();
+
       this.dialog = false;
+    },
+    updateListInvoices() {
+      const self = this;
+      entradasRef.on('child_added', (snapshot) => {
+        const invoice = {
+          key: snapshot.key,
+          cliente: snapshot.val().cliente,
+          data: snapshot.val().data,
+          preco: snapshot.val().preco,
+          servico: snapshot.val().servico,
+          entradas: snapshot.val().entradas,
+        };
+        self.entradas.push(invoice);
+      });
     },
   },
   created() {
     this.verifyLogin();
   },
   beforeMount() {
-    const self = this;
-    entradasRef.on('child_added', (snapshot) => {
-      const invoice = {
-        key: snapshot.key,
-        cliente: snapshot.val().cliente,
-        data: snapshot.val().data,
-        preco: snapshot.val().preco,
-        servico: snapshot.val().servico,
-        entradas: snapshot.val().entradas,
-      };
-      self.entradas.push(invoice);
-    });
+    this.updateListInvoices();
   },
 };
 </script>
