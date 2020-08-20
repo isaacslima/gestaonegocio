@@ -159,8 +159,8 @@
                 <v-text-field v-model="item.dataParto" label="Data Parto" mask="##/##/####" persistent-hint
                   hint="DD/MM/AAAA"></v-text-field>
               </v-flex>
-              <v-btn color="info" @click="addFilho()">Adicionar Filho(a)</v-btn>
-              <v-btn color="error" @click="removeFilho(index)">Remover Filho(a)</v-btn>
+              <v-btn style="background-color: blue" small dark @click="addFilho()">Adicionar Filho(a)</v-btn>
+              <v-btn style="background-color: red" small dark @click="removeFilho(index)">Remover Filho(a)</v-btn>
             </v-layout>
           </v-card>
         </v-layout>
@@ -170,7 +170,7 @@
         </v-flex>
         <v-snackbar v-model="snackbar" :color="color" :multi-line="'multi-line'" :timeout="96000">
           {{ msg }}
-          <v-btn dark flat @click="snackbar = false" to="/cadastro-clientes">
+          <v-btn dark text @click="snackbar = false" to="/cadastro-clientes">
             Fechar
           </v-btn>
         </v-snackbar>
@@ -253,6 +253,7 @@ export default {
     this.verificaLogin();
     this.loading = false;
     this.id = this.$route.params.id;
+    console.log(this.id);
     if (this.id === 'new') {
       return;
     }
@@ -323,6 +324,9 @@ export default {
     buscaClientes() {
       const self = this;
       clientesRef.orderByKey().equalTo(this.id).on('child_added', (snapshot) => {
+        if (!snapshot.val().filhos) {
+          self.addFilho();
+        } else self.filhos = snapshot.val().filhos;
         self.nome = snapshot.val().nome;
         self.telefone = snapshot.val().telefone;
         self.email = snapshot.val().email;
@@ -337,7 +341,6 @@ export default {
         self.meioContato = this.voidIfUndefined(snapshot.val().meioContato);
         self.indicacao = snapshot.val().indicacao;
         self.ativo = snapshot.val().ativo;
-        self.filhos = !snapshot.val().filhos ? self.addFilho() : snapshot.val().filhos;
         self.observacao = snapshot.val().observacao;
         self.cep = snapshot.val().cep;
         self.logradouro = snapshot.val().logradouro;

@@ -31,7 +31,7 @@
 
             <v-snackbar v-model="snackbar" :color="color" :multi-line="'multi-line'" :timeout="6000">
               {{ msg }}
-              <v-btn dark flat @click="back()">
+              <v-btn dark text @click="back()">
                 Fechar
               </v-btn>
             </v-snackbar>

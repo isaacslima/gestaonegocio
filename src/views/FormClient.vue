@@ -89,7 +89,7 @@
         </div>
         <v-snackbar v-model="snackbar" :color="color" :multi-line="'multi-line'">
           {{ msg }}
-          <v-btn dark flat @click="snackbar = false">
+          <v-btn dark text @click="snackbar = false">
             Fechar
           </v-btn>
         </v-snackbar>
