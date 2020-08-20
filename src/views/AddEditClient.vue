@@ -133,22 +133,8 @@
           <v-flex xs12 sm3>
             <v-text-field v-model="uf" required :rules="obrigatorio" label="Estado *"></v-text-field>
           </v-flex>
-
-          <v-flex xs12 sm12>
-            <v-textarea v-model="observacao" required label="Observação">
-            </v-textarea>
-          </v-flex>
-
-          <v-flex xs12 sm3>
-            <v-text-field v-model="followup" required label="Follow-up"></v-text-field>
-          </v-flex>
-
-          <v-flex xs12 sm3>
-            <v-checkbox v-model="interessado" label="Interessado">
-            </v-checkbox>
-          </v-flex>
-
-          <v-card class="light-gray" style="width:100%">
+          <v-flex xs12>
+            <v-card class="light-gray" style="width:100%">
             <v-layout row wrap v-for="(item, index) in filhos" v-bind:key="item.id" mb-3>
               <v-card-title>{{ index + 1 }}º Filho(a)</v-card-title>
               <v-flex xs12 sm2>
@@ -163,6 +149,18 @@
               <v-btn style="background-color: red" small dark @click="removeFilho(index)">Remover Filho(a)</v-btn>
             </v-layout>
           </v-card>
+          </v-flex>
+          <v-flex xs12 sm12>
+            <v-textarea v-model="observacao" required label="Observação">
+            </v-textarea>
+          </v-flex>
+          <v-flex xs12 sm3>
+            <v-text-field v-model="followup" required label="Follow-up"></v-text-field>
+          </v-flex>
+          <v-flex xs12 sm3>
+            <v-checkbox v-model="interessado" label="Interessado">
+            </v-checkbox>
+          </v-flex>
         </v-layout>
         <v-flex xs12 sm4>
           <v-btn small class="mb-2 mr-1" :disabled="loading" style="background-color: red" dark @click="back()">Voltar</v-btn>
