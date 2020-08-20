@@ -254,6 +254,7 @@ export default {
     this.loading = false;
     this.id = this.$route.params.id;
     if (this.id === 'new') {
+      this.addFilho();
       return;
     }
     this.buscaClientes();
