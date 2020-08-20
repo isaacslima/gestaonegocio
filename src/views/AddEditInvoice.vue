@@ -1,95 +1,101 @@
 <template>
-  <div class="main-content-container container-fluid px-4">
-    <div class="page-header row no-gutters py-4">
-      <div class="col-12 col-sm-9 text-center text-sm-left mb-0">
-        <h3 class="page-title">Cadastro Entrada</h3>
+  <v-app id="invoice">
+    <div class="main-content-container container-fluid px-4">
+      <div class="page-header row no-gutters py-4">
+        <div class="col-12 col-sm-9 text-center text-sm-left mb-0">
+          <h3 class="page-title">Cadastro Entrada</h3>
+        </div>
+        <div class="col-3 col-sm-3 text-center text-sm-right mb-0">
+          <v-btn small class="mb-2 mr-1" style="background-color: green" dark @click="back()">Voltar</v-btn>
+        </div>
       </div>
-      <div class="col-3 col-sm-3 text-center text-sm-right mb-0">
-        <v-btn small class="mb-2 mr-1" style="background-color: green" dark @click="back()">Voltar</v-btn>
-      </div>
-    </div>
-    <div class="col-12 col-sm-12 text-center text-sm-left mb-0">
-      <v-form v-on:submit.prevent="salvar" ref="form" v-model="valid" lazy-validation>
-        <v-content id="inspire">
-          <v-container grid-list-md>
-            <v-layout row wrap xs12>
-              <v-flex xs12 sm5>
-                <v-autocomplete :items="clientes" v-model="cliente" item-text="nome" required label="Cliente">
-                </v-autocomplete>
-              </v-flex>
-              <v-flex xs12 sm5>
-                <v-select :items="servicos" item-text="nome" v-model="servico" required @change="buscaPreco(servico)"
-                  label="Serviço">
-                </v-select>
-              </v-flex>
-              <v-flex xs12 sm2>
-                Preço<br>
-                <money v-model="preco" readonly required class="form-input input-lg" v-bind="money"></money>
-              </v-flex>
-            </v-layout>
-            <v-layout xs12>
-              <v-flex xs12 sm3>
-                <v-menu ref="menuData" :close-on-content-click="false" v-model="menuData" :nudge-right="40" lazy
-                  transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
-                  <v-text-field slot="activator" v-model="data" label="Data" persistent-hint readonly
-                    prepend-icon="event" @blur="date = parseDate(data)"></v-text-field>
-                  <v-date-picker v-model="date" no-title @input="menuData = false"></v-date-picker>
-                </v-menu>
-              </v-flex>
-              <v-flex xs12 sm3>
-                <v-menu ref="menu1" :close-on-content-click="false" v-model="menu1" :nudge-right="40" lazy
-                  transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
-                  <v-text-field slot="activator" v-model="dataFinal" label="Data Término Serviço" persistent-hint
-                    readonly prepend-icon="event" @blur="dateFinal = parseDate(dataFinal)"></v-text-field>
-                  <v-date-picker v-model="dateFinal" no-title @input="menu1 = false"></v-date-picker>
-                </v-menu>
-              </v-flex>
-            </v-layout>
-            <div v-for="item in entradas" :key="item.value" pt-5>
-              <v-card pa-5>
-                <v-layout row wrap pl-3>
-                  <v-flex xs12 sm2>
-                    <v-autocomplete :items="tipoPagamento" v-model="item.pagamento" label="Tipo Pagamento">
-                    </v-autocomplete>
-                  </v-flex>
-                  <v-flex xs12 sm2>
-                    <v-text-field mask="##/##/####"  v-model="item.dataPagamento" persistent-hint hint="dd/mm/aaaa">
-                    </v-text-field>
-                  </v-flex>
-                  <v-flex xs12 sm2>
-                    Preço<br>
-                    <money v-model="item.valor" required class="form-input input-lg" v-bind="money"></money>
-                  </v-flex>
-                  <v-flex xs12 sm2>
-                    <v-checkbox color="success" v-model="item.pago" label="Pago"></v-checkbox>
-                  </v-flex>
-                  <v-flex xs12 sm2>
-                    <v-btn class="mb-2 btn-outline-light mr-1" small style="background-color: red" dark @click="removeEntrada(item)">
-                      <i class="material-icons mr-1 text-white">close</i>Remover Pagamento
-                    </v-btn>
+      <div class="col-12 col-sm-12 text-center text-sm-left mb-0">
+        <v-form v-on:submit.prevent="salvar" ref="form" v-model="valid" lazy-validation>
+          <v-content id="inspire">
+            <v-container grid-list-md>
+              <v-layout row wrap xs12>
+                <v-flex xs12 sm5>
+                  <v-autocomplete :items="clientes" v-model="cliente" item-text="nome" item-value="key" required label="Cliente">
+                  </v-autocomplete>
+                </v-flex>
+                <v-flex xs12 sm5>
+                  <v-autocomplete
+                    v-model="servico"
+                    :items="servicos"
+                    required
+                    @change="buscaPreco(servico)"
+                    item-text="nome" item-value="key"
+                    label="Serviço"
+                  ></v-autocomplete>
+                </v-flex>
+                <v-flex xs12 sm2>
+                  Preço<br>
+                  <money v-model="preco" readonly required class="form-input input-lg" v-bind="money"></money>
+                </v-flex>
+              </v-layout>
+              <v-layout xs12>
+                <v-flex xs12 sm3>
+                  <v-menu ref="menuData" :close-on-content-click="false" v-model="menuData" :nudge-right="40" lazy
+                    transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
+                    <v-text-field slot="activator" v-model="data" label="Data" persistent-hint readonly
+                      prepend-icon="event" @blur="date = parseDate(data)"></v-text-field>
+                    <v-date-picker v-model="date" no-title @input="menuData = false"></v-date-picker>
+                  </v-menu>
+                </v-flex>
+                <v-flex xs12 sm3>
+                  <v-menu ref="menu1" :close-on-content-click="false" v-model="menu1" :nudge-right="40" lazy
+                    transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
+                    <v-text-field slot="activator" v-model="dataFinal" label="Data Término Serviço" persistent-hint
+                      readonly prepend-icon="event" @blur="dateFinal = parseDate(dataFinal)"></v-text-field>
+                    <v-date-picker v-model="dateFinal" no-title @input="menu1 = false"></v-date-picker>
+                  </v-menu>
+                </v-flex>
+              </v-layout>
+              <div v-for="item in entradas" :key="item.value" pt-5>
+                <v-card pa-5>
+                  <v-layout row wrap pl-3>
+                    <v-flex xs12 sm2>
+                      <v-select :items="tipoPagamento" v-model="item.pagamento" label="Tipo Pagamento"></v-select>
+                    </v-flex>
+                    <v-flex xs12 sm2>
+                      <v-text-field mask="##/##/####"  v-model="item.dataPagamento" persistent-hint hint="dd/mm/aaaa">
+                      </v-text-field>
+                    </v-flex>
+                    <v-flex xs12 sm2>
+                      Valor Pago<br>
+                      <money v-model="item.valor" required class="form-input input-lg" v-bind="money"></money>
+                    </v-flex>
+                    <v-flex xs12 sm2>
+                      <v-checkbox color="success" v-model="item.pago" label="Pago"></v-checkbox>
+                    </v-flex>
+                    <v-flex xs12 sm2>
+                      <v-btn class="mb-2 btn-outline-light mr-1" small style="background-color: red" dark @click="removeEntrada(item)">
+                        <i class="material-icons mr-1 text-white">close</i>Remover Pagamento
+                      </v-btn>
 
-                  </v-flex>
-                </v-layout>
-              </v-card>
-            </div>
-            <div class="text-right">
-              <v-btn small style="background-color: blue" dark class="mb-2 mr-1" @click="addEntrada()">Adicionar Forma de Pagamento</v-btn>
-            </div>
-            <v-flex xs12 sm4>
-              <v-btn small style="background-color: red" dark  class="mb-2 mr-1" type="reset" :disabled="loading" @click="back()">Cancelar</v-btn>
-              <v-btn small style="background-color: green" dark  class="mb-2 mr-1" :loading="loading" :disabled="loading || !valid" type="submit">Salvar</v-btn>
-            </v-flex>
-            <v-snackbar v-model="snackbar" :color="color" :multi-line="'multi-line'" :timeout="6000">
-              {{ msg }}
-              <v-btn dark text @click="back()">
-                Fechar
-              </v-btn>
-            </v-snackbar>
-          </v-container>
-        </v-content>
-      </v-form>
+                    </v-flex>
+                  </v-layout>
+                </v-card>
+              </div>
+              <div class="text-right">
+                <v-btn small style="background-color: blue" dark class="mb-2 mr-1" @click="addEntrada()">Adicionar Forma de Pagamento</v-btn>
+              </div>
+              <v-flex xs12 sm4>
+                <v-btn small style="background-color: red" dark  class="mb-2 mr-1" type="reset" :disabled="loading" @click="back()">Cancelar</v-btn>
+                <v-btn small style="background-color: green" dark  class="mb-2 mr-1" :loading="loading" :disabled="loading || !valid" type="submit">Salvar</v-btn>
+              </v-flex>
+              <v-snackbar v-model="snackbar" :color="color" :multi-line="'multi-line'" :timeout="6000">
+                {{ msg }}
+                <v-btn dark text @click="back()">
+                  Fechar
+                </v-btn>
+              </v-snackbar>
+            </v-container>
+          </v-content>
+        </v-form>
+      </div>
     </div>
-  </div>
+  </v-app>
 </template>
 
 <script>
@@ -106,6 +112,8 @@ export default {
       v => !!v || 'Campo é obrigatório',
     ],
     servicos: [],
+    servicoSelecionado: '',
+    clienteSelecionado: '',
     clientes: [],
     date: new Date().toISOString().substr(0, 10),
     data: vm.formatDate(new Date().toISOString().substr(0, 10)),
@@ -161,11 +169,8 @@ export default {
     servicosRef.on('child_added', (snapshot) => {
       const invoice = {
         key: snapshot.key,
-        cliente: snapshot.val().cliente,
-        data: snapshot.val().data,
+        nome: snapshot.val().nome,
         preco: snapshot.val().preco,
-        servico: snapshot.val().servico,
-        entradas: snapshot.val().entradas,
       };
       self.servicos.push(invoice);
     });
@@ -212,7 +217,8 @@ export default {
     },
     buscaPreco(val) {
       const self = this;
-      servicosRef.orderByChild('nome').equalTo(val).on('child_added', (snapshot) => {
+      servicosRef.orderByKey().equalTo(val).on('child_added', (snapshot) => {
+        self.servicoSelecionado = snapshot.val().nome;
         self.preco = snapshot.val().preco;
       });
     },
@@ -262,8 +268,10 @@ export default {
           horaLancamento: (moment().format('DD/MM/YYYY HH:mm:ss')),
         };
         entradasRef.push().set({
-          cliente: this.cliente,
-          servico: this.servico,
+          cliente: this.clienteSelecionado,
+          keyCliente: this.cliente,
+          servico: this.servicoSelecionado,
+          keyService: this.servico,
           data: this.data,
           preco: this.preco,
           dataFinal: this.dataFinal,
@@ -278,7 +286,11 @@ export default {
     },
     salvar() {
       if (this.$refs.form.validate()) {
+        const self = this;
         this.loading = true;
+        clientesRef.orderByKey().equalTo(this.cliente).on('child_added', (snapshot) => {
+          self.clienteSelecionado = snapshot.val().nome;
+        });
         if (this.id !== 'new') {
           this.updateInvoice();
         } else this.insertInvoice();
