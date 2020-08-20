@@ -95,7 +95,7 @@ export default {
     },
     removeInvoice() {
       entradasRef.child(this.keyExclusao).remove();
-
+      this.updateListInvoices();
       this.dialog = false;
     },
     updateListInvoices() {
