@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <v-app id="client">
     <v-app-bar dense app style="background-color: #759F89" color="blue-grey" dark >
       Cadastro de Clientes
       <v-spacer></v-spacer>
@@ -18,11 +18,43 @@
                <v-btn small class="mb-2 mr-1" style="background-color: blue" dark @click="editClient(item.key)">
                  <i class="material-icons mr-1 text-white">edit</i>Editar
                </v-btn>
+                <v-btn small class="mb-2 mr-1" style="background-color: red" dark @click="confirmRemoveClient(item.key)">
+                 <i class="material-icons mr-1 text-white">edit</i>Remover
+               </v-btn>
             </div>
         </v-card-text>
       </v-card>
     </div>
-  </div>
+    <v-row>
+      <v-dialog v-model="dialog" max-width="360">
+        <v-card>
+          <v-card-title class="headline">Deseja realmente remover o serviço?</v-card-title>
+          <v-card-text>
+            {{ nome }}
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn
+              color="green darken-1"
+              text
+              @click="dialog = false"
+            >
+              Não
+            </v-btn>
+
+            <v-btn
+              color="green darken-1"
+              text
+              @click="removeService()"
+            >
+              Sim
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
+  </v-app>
 </template>
 
 <script>
