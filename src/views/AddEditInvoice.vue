@@ -202,7 +202,6 @@ export default {
     },
     getKeyService() {
       const self = this;
-      console.log(this.servico);
       servicosRef.orderByChild('nome').equalTo(this.servico).on('child_added', (service) => {
         self.keyService = service.key;
       });
