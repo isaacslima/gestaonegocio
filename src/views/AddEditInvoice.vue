@@ -15,12 +15,12 @@
             <v-container grid-list-md>
               <v-layout row wrap xs12>
                 <v-flex xs12 sm5>
-                  <v-autocomplete :items="clientes" v-model="cliente" item-text="nome" item-value="key" required label="Cliente">
+                  <v-autocomplete :items="clientes" v-model="keyCliente" item-text="nome" item-value="key" required label="Cliente">
                   </v-autocomplete>
                 </v-flex>
                 <v-flex xs12 sm5>
                   <v-autocomplete
-                    v-model="servico"
+                    v-model="keyService"
                     :items="servicos"
                     required
                     @change="buscaPreco(servico)"
@@ -145,6 +145,8 @@ export default {
       masked: false,
     },
     valid: true,
+    keyCliente: '',
+    keyService: '',
     loading: false,
     ativo: true,
     snackbar: false,
@@ -192,17 +194,38 @@ export default {
     },
   },
   methods: {
+    getKeyCliente() {
+      const self = this;
+      clientesRef.orderByChild('nome').equalTo(this.cliente).on('child_added', (cliente) => {
+        self.keyCliente = cliente.key;
+      });
+    },
+    getKeyService() {
+      const self = this;
+      console.log(this.servico);
+      servicosRef.orderByChild('nome').equalTo(this.servico).on('child_added', (service) => {
+        self.keyService = service.key;
+      });
+    },
     getInvoice() {
       const self = this;
       entradasRef.orderByKey().equalTo(this.id).on('child_added', (snapshot) => {
-        self.cliente = snapshot.val().clienteSelecionado;
-        self.keyCliente = snapshot.val().cliente;
+        self.cliente = snapshot.val().cliente;
+        if (!snapshot.val().keyCliente) {
+          self.getKeyCliente();
+        } else {
+          self.keyCliente = snapshot.val().keyCliente;
+        }
         self.data = snapshot.val().data;
         self.dataFinal = snapshot.val().dataFinal;
         self.entradas = snapshot.val().entradas;
         self.preco = snapshot.val().preco;
-        self.servico = snapshot.val().servicoSelecionado;
-        self.keyService = snapshot.val().servico;
+        self.servico = snapshot.val().servico;
+        if (!snapshot.val().keyService) {
+          self.getKeyService();
+        } else {
+          self.keyService = snapshot.val().keyService;
+        }
       });
     },
     back() {
@@ -245,9 +268,9 @@ export default {
       const self = this;
       entradasRef.child(this.id).update({
         cliente: self.clienteSelecionado,
-        keyCliente: self.cliente,
+        keyCliente: self.keyCliente,
         servico: self.servicoSelecionado,
-        keyService: self.servico,
+        keyService: self.keyService,
         data: self.data,
         preco: self.preco,
         dataFinal: self.dataFinal,
@@ -273,9 +296,9 @@ export default {
         };
         entradasRef.push().set({
           cliente: this.clienteSelecionado,
-          keyCliente: this.cliente,
+          keyCliente: this.keyCliente,
           servico: this.servicoSelecionado,
-          keyService: this.servico,
+          keyService: this.keyService,
           data: this.data,
           preco: this.preco,
           dataFinal: this.dataFinal,
@@ -292,8 +315,11 @@ export default {
       if (this.$refs.form.validate()) {
         const self = this;
         this.loading = true;
-        clientesRef.orderByKey().equalTo(this.cliente).on('child_added', (snapshot) => {
+        clientesRef.orderByKey().equalTo(this.keyCliente).on('child_added', (snapshot) => {
           self.clienteSelecionado = snapshot.val().nome;
+        });
+        servicosRef.orderByKey().equalTo(this.keyService).on('child_added', (snapshot) => {
+          self.servicoSelecionado = snapshot.val().nome;
         });
         if (this.id !== 'new') {
           this.updateInvoice();
