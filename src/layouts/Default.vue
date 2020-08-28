@@ -1,13 +1,13 @@
 <template>
-  <d-container fluid>
-    <d-row>
+  <v-app fluid>
+    <v-row>
       <main-sidebar :items="sidebarItems" v-if="logged" />
       <d-col class="main-content offset-lg-2 offset-md-3 p-0" tag="main" lg="10" md="9" sm="12">
         <main-navbar v-if="logged" />
         <slot v-on:login="loggedin" />
       </d-col>
-    </d-row>
-  </d-container>
+    </v-row>
+  </v-app>
 </template>
 
 <script>

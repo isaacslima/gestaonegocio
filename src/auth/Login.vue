@@ -1,6 +1,6 @@
 <template>
-<div class="main-content offset-lg-2 p-0" tag="main" lg="10" md="9" sm="12">
-    <d-container fluid class="main-content-container px-4">
+<v-app class="main-content offset-lg-2 p-0" tag="main" lg="10" md="9" sm="12">
+    <div fluid class="main-content-container px-4">
       <v-row no-gutters class="page-header py-2 pb-4 mb-3">
         <v-col col sm="4" class="text-center text-sm-left mb-4 mb-sm-0">
           <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 360px;" src="@/assets/images/image-logo.png" alt="Shards Dashboard">
@@ -29,8 +29,8 @@
           </v-card>
         </v-col>
       </v-row>
-    </d-container>
-  </div>
+    </div>
+  </v-app>
 </template>
 <script>
 </script>
