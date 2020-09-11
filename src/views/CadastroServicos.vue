@@ -1,30 +1,32 @@
 <template>
   <v-app id="service">
-    <v-app-bar dense app style="background-color: #759F89" color="blue-grey" dark >
-      Cadastro de Serviços
-      <v-spacer></v-spacer>
-      <v-btn small style="background-color: green" dark class="mb-2 mr-1" @click="newService()">Novo Serviço</v-btn>
-    </v-app-bar>
-    <div class="col-12 col-sm-12 text-center text-sm-left mb-0 mt-4">
-      <v-card class="card-small mb-4" v-for="item in servicos" :key="item.key">
-          <v-card-text class="px-3">
-            <h5>
-              <b>Nome:</b> {{ item.nome }} <b>Preço:</b> R$ {{ item.preco.toFixed(2) }}
-            </h5>
-            <h5>
-              Observação: {{ item.observacao }}
-            </h5>
-            <div class="text-right">
-              <v-btn small style="background-color: blue" dark class="mb-2 btn-outline-light mr-1" @click="editService(item.key)">
-                <i class="material-icons mr-1 text-white">edit</i>Editar
-              </v-btn>
-              <v-btn small style="background-color: red" dark class="mb-2 btn-outline-light mr-1" @click="confirmRemoveService(item.key, item.nome)">
-                <i class="material-icons mr-1 text-white">close</i>Remover
-              </v-btn>
-            </div>
-          </v-card-text>
-      </v-card>
-    </div>
+    <v-card elevation="24">
+      <v-card-title>
+        Cadastro de Serviços
+        <v-btn small style="background-color: green" dark class="mb-2 mr-1" @click="newService()">Novo Serviço</v-btn>
+        <v-spacer></v-spacer>
+        <v-text-field v-model="search" append-icon="mdi-magnify" label="Pesquisar" single-line hide-details>
+        </v-text-field>
+      </v-card-title>
+      <v-data-table
+        :headers="headers"
+        :items="servicos"
+        :search="search"
+        sort-by="nome"
+      >
+      <template v-slot:item.preco="{ item }">
+        <b>R$ {{ item.preco.toFixed(2) }}</b>
+      </template>
+      <template v-slot:item.edicao="{ item }">
+        <v-btn small class="mb-2 mr-1" style="background-color: blue" dark @click="editService(item.key)">
+            <i class="material-icons mr-1 text-white">edit</i>
+          </v-btn>
+          <v-btn small class="mb-2 mr-1" style="background-color: red" dark @click="confirmRemoveService(item.key)">
+            <i class="material-icons mr-1 text-white">close</i>
+          </v-btn>
+      </template>
+      </v-data-table>
+    </v-card>
     <v-row>
       <v-dialog v-model="dialog" max-width="360">
         <v-card>
@@ -34,20 +36,10 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-
-            <v-btn
-              color="green darken-1"
-              text
-              @click="dialog = false"
-            >
+            <v-btn color="green darken-1" text @click="dialog = false">
               Não
             </v-btn>
-
-            <v-btn
-              color="green darken-1"
-              text
-              @click="removeService()"
-            >
+            <v-btn color="green darken-1" text @click="removeService()">
               Sim
             </v-btn>
           </v-card-actions>
@@ -72,6 +64,12 @@ export default {
     nome: '',
     keyExclusao: false,
     keys: [],
+    headers: [
+      { text: 'Nome', value: 'nome' },
+      { text: 'Preço', value: 'preco' },
+      { text: 'Observação', value: 'observacao' },
+      { text: '', value: 'edicao', sortable: false },
+    ],
   }),
   methods: {
     newService() {
