@@ -1,20 +1,25 @@
 <template>
-  <v-container fluid>
-    <v-app-bar app style="background-color: #759F89" color="blue-grey" dark >
-      Aniversariantes do mês
-    </v-app-bar>
-    <v-row class="mt-4">
-      <v-card class="card-small col-12">
-        <v-card-text class="border-bottom" flush v-for="item in clientes" :key="item['.key']">
-            <h5>
-            <b> Cliente: </b> {{ item.nome }}
-            <br> <b>Aniversario Cliente</b> {{ item.aniversarioMae }}
-            <br> <b>Aniversário Criança</b> {{ item.aniversarioCrianca }}
-            </h5>
-        </v-card-text>
-      </v-card>
-    </v-row>
-  </v-container>
+  <v-app >
+    <v-card elevation="24">
+      <v-card-title>
+        Aniversariantes do mês
+        <v-spacer></v-spacer>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Pesquisar"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table
+        :headers="headers"
+        :items="clientes"
+        :search="search"
+        sort-by="nome"
+      ></v-data-table>
+    </v-card>
+  </v-app>
 </template>
 
 <script>
@@ -32,6 +37,12 @@ export default {
         from: null,
         to: null,
       },
+      search: '',
+      headers: [
+        { text: 'Cliente', align: 'start', value: 'nome' },
+        { text: 'Aniversario Cliente', value: 'aniversarioMae' },
+        { text: 'Aniversário Criança', value: 'aniversarioCrianca' },
+      ],
     };
   },
   methods: {
@@ -55,4 +66,9 @@ export default {
   },
 };
 </script>
+<style>
+.home{
+  background-color: red;
+}
+</style>
 
