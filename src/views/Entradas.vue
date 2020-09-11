@@ -1,12 +1,6 @@
 <template>
 <v-app id="crudInvoice">
-  <div>
-    <v-app-bar dense app style="background-color: #759F89" color="blue-grey" dark >
-      Cadastro de Entradas
-      <v-spacer></v-spacer>
-      <v-btn small style="background-color: green" dark class="mb-2 mr-1" @click="editInvoice('new')">Nova Entrada</v-btn>
-    </v-app-bar>
-    <div class="col-12 col-sm-12 text-center text-sm-left mb-0 mt-4">
+    <!-- <div class="col-12 col-sm-12 text-center text-sm-left mb-0 mt-4">
       <v-card class="card-small mb-4" v-for="item in entradas" :key="item['.key']">
         <v-card-text class="px-3">
           <h5>
@@ -30,8 +24,35 @@
           </div>
         </v-card-text>
       </v-card>
-    </div>
-  </div>
+    </div> -->
+
+  <v-card elevation="24">
+      <v-card-title>
+        Cadastro de Entradas
+        <v-btn small style="background-color: green" dark class="mb-2 mr-1" @click="editInvoice('new')">Nova Entrada</v-btn>
+        <v-spacer></v-spacer>
+        <v-text-field v-model="search" append-icon="mdi-magnify" label="Pesquisar" single-line hide-details>
+        </v-text-field>
+      </v-card-title>
+      <v-data-table
+        :headers="headers"
+        :items="entradas"
+        :search="search"
+        sort-by="nome"
+      >
+      <template v-slot:item.preco="{ item }">
+        <b>R$ {{ item.preco.toFixed(2) }}</b>
+      </template>
+      <template v-slot:item.edicao="{ item }">
+        <v-btn small class="mb-2 mr-1" style="background-color: blue" dark @click="editInvoice(item.key)">
+            <i class="material-icons mr-1 text-white">edit</i>
+          </v-btn>
+          <v-btn small class="mb-2 mr-1" style="background-color: red" dark @click="confirmRemoveInvoice(item.key)">
+            <i class="material-icons mr-1 text-white">close</i>
+          </v-btn>
+      </template>
+      </v-data-table>
+    </v-card>
   <v-row>
       <v-dialog v-model="dialog" max-width="360">
         <v-card>
@@ -79,6 +100,13 @@ export default {
     nomeServico: '',
     keyExclusao: false,
     keys: [],
+    headers: [
+      { text: 'Nome', value: 'cliente' },
+      { text: 'Telefone', value: 'data' },
+      { text: 'Email', value: 'preco' },
+      { text: 'Data Parto', value: 'servico' },
+      { text: '', value: 'edicao', sortable: false },
+    ],
   }),
   methods: {
     editInvoice(key) {
@@ -100,6 +128,7 @@ export default {
     },
     updateListInvoices() {
       const self = this;
+      this.entradas = [];
       entradasRef.on('child_added', (snapshot) => {
         const invoice = {
           key: snapshot.key,
