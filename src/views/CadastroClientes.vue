@@ -84,8 +84,7 @@ export default {
       { text: 'Data Parto', value: 'dataParto' },
       { text: 'Interessado', value: 'interessado' },
       { text: 'Formulário', value: 'formulario' },
-      { text: '', value: 'edicao' },
-      { text: '', value: 'desativar', sortable: false },
+      { text: '', value: 'edicao', sortable: false },
     ],
   }),
   methods: {
