@@ -3,14 +3,10 @@
     <v-card elevation="24">
       <v-card-title>
         Cadastro de Clientes
+        <v-btn small style="background-color: green" dark class="mb-2 mr-1" @click="newClient()">Novo Cliente</v-btn>
         <v-spacer></v-spacer>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Pesquisar"
-          single-line
-          hide-details
-        ></v-text-field>
+        <v-text-field v-model="search" append-icon="mdi-magnify" label="Pesquisar" single-line hide-details>
+        </v-text-field>
       </v-card-title>
       <v-data-table
         :headers="headers"
@@ -18,33 +14,20 @@
         :search="search"
         sort-by="nome"
       >
-      <template v-slot:items.interessado="{ item }">
+      <template v-slot:item.interessado="{ item }">
         <i class="material-icons mr-1 bg-success rounded text-white" v-if="item.interessado" >check</i>
         <i class="material-icons mr-1 bg-danger rounded text-white" v-if="!item.interessado">close</i>
       </template>
+      <template v-slot:item.edicao="{ item }">
+        <v-btn small class="mb-2 mr-1" style="background-color: blue" dark @click="editClient(item.key)">
+            <i class="material-icons mr-1 text-white">edit</i>
+          </v-btn>
+          <v-btn small class="mb-2 mr-1" style="background-color: red" dark @click="confirmRemoveClient(item.key)">
+            <i class="material-icons mr-1 text-white">close</i>
+          </v-btn>
+      </template>
       </v-data-table>
     </v-card>
-    <!--
-    <div class="col-12 col-sm-12 text-center text-sm-left mb-0 mt-4">
-      <v-card class="card-small mb-4" v-for="item in clientes" :key="item.key">
-        <v-card-text flush>
-            <h5>
-              <b>Nome:</b> {{ item.nome }} <b>Telefone:</b> {{ item.telefone }}
-              <b>Interessado: </b>
-                <i class="material-icons mr-1 bg-success rounded text-white" v-if="item.interessado" >check</i>
-                <i class="material-icons mr-1 bg-danger rounded text-white" v-if="!item.interessado">close</i>
-            </h5>
-             <div class="text-right">
-               <v-btn small class="mb-2 mr-1" style="background-color: blue" dark @click="editClient(item.key)">
-                 <i class="material-icons mr-1 text-white">edit</i>Editar
-               </v-btn>
-                <v-btn small class="mb-2 mr-1" style="background-color: red" dark @click="confirmRemoveClient(item.key)">
-                 <i class="material-icons mr-1 text-white">edit</i>Remover
-               </v-btn>
-            </div>
-        </v-card-text>
-      </v-card>
-    </div> -->
     <v-row>
       <v-dialog v-model="dialog" max-width="360">
         <v-card>
@@ -98,13 +81,11 @@ export default {
       { text: 'Nome', value: 'nome' },
       { text: 'Telefone', value: 'telefone' },
       { text: 'Email', value: 'email' },
-      { text: 'Cidade', value: 'cidade' },
-      { text: 'Data Contato', value: 'dataContato' },
       { text: 'Data Parto', value: 'dataParto' },
       { text: 'Interessado', value: 'interessado' },
       { text: 'Formulário', value: 'formulario' },
-      { text: 'Follow-up', value: 'followup' },
-      { text: '', value: 'desativar' },
+      { text: '', value: 'edicao' },
+      { text: '', value: 'desativar', sortable: false },
     ],
   }),
   methods: {
