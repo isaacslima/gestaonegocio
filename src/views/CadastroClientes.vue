@@ -1,10 +1,30 @@
 <template>
   <v-app id="client">
-    <v-app-bar dense app style="background-color: #759F89" color="blue-grey" dark >
-      Cadastro de Clientes
-      <v-spacer></v-spacer>
-      <v-btn small class="mb-2 mr-1" style="background-color: green" dark @click="newClient()">Novo Cliente</v-btn>
-    </v-app-bar>
+    <v-card elevation="24">
+      <v-card-title>
+        Cadastro de Clientes
+        <v-spacer></v-spacer>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Pesquisar"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table
+        :headers="headers"
+        :items="clientes"
+        :search="search"
+        sort-by="nome"
+      >
+      <template v-slot:items.interessado="{ item }">
+        <i class="material-icons mr-1 bg-success rounded text-white" v-if="item.interessado" >check</i>
+        <i class="material-icons mr-1 bg-danger rounded text-white" v-if="!item.interessado">close</i>
+      </template>
+      </v-data-table>
+    </v-card>
+    <!--
     <div class="col-12 col-sm-12 text-center text-sm-left mb-0 mt-4">
       <v-card class="card-small mb-4" v-for="item in clientes" :key="item.key">
         <v-card-text flush>
@@ -24,7 +44,7 @@
             </div>
         </v-card-text>
       </v-card>
-    </div>
+    </div> -->
     <v-row>
       <v-dialog v-model="dialog" max-width="360">
         <v-card>
