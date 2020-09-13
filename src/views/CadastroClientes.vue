@@ -8,51 +8,32 @@
         <v-text-field v-model="search" append-icon="mdi-magnify" label="Pesquisar" single-line hide-details>
         </v-text-field>
       </v-card-title>
-      <v-data-table
-        :headers="headers"
-        :items="clientes"
-        :search="search"
-        sort-by="nome"
-      >
-      <template v-slot:item.interessado="{ item }">
-        <i class="material-icons mr-1 bg-success rounded text-white" v-if="item.interessado" >check</i>
-        <i class="material-icons mr-1 bg-danger rounded text-white" v-if="!item.interessado">close</i>
-      </template>
-      <template v-slot:item.edicao="{ item }">
-        <v-btn small class="mb-2 mr-1" style="background-color: blue" dark @click="editClient(item.key)">
-            <i class="material-icons mr-1 text-white">edit</i>
-          </v-btn>
-          <v-btn small class="mb-2 mr-1" style="background-color: red" dark @click="confirmRemoveClient(item.key)">
-            <i class="material-icons mr-1 text-white">close</i>
-          </v-btn>
-      </template>
+      <v-data-table :headers="headers" :items="clientes" :search="search" sort-by="nome">
+        <template v-slot:item.interessado="{ item }">
+          <i class="material-icons mr-1 bg-success rounded text-white" v-if="item.interessado" >check</i>
+          <i class="material-icons mr-1 bg-danger rounded text-white" v-if="!item.interessado">close</i>
+        </template>
+        <template v-slot:item.edicao="{ item }">
+          <v-btn small class="mb-2 mr-1" style="background-color: blue" dark @click="editClient(item.key)">
+              <i class="material-icons mr-1 text-white">edit</i>
+            </v-btn>
+            <v-btn small class="mb-2 mr-1" style="background-color: red" dark @click="confirmRemoveClient(item.key, item.nome)">
+              <i class="material-icons mr-1 text-white">close</i>
+            </v-btn>
+        </template>
       </v-data-table>
     </v-card>
     <v-row>
       <v-dialog v-model="dialog" max-width="360">
         <v-card>
-          <v-card-title class="headline">Deseja realmente remover o serviço?</v-card-title>
+          <v-card-title class="headline">Deseja realmente remover o cliente?</v-card-title>
           <v-card-text>
             {{ nome }}
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-
-            <v-btn
-              color="green darken-1"
-              text
-              @click="dialog = false"
-            >
-              Não
-            </v-btn>
-
-            <v-btn
-              color="green darken-1"
-              text
-              @click="removeService()"
-            >
-              Sim
-            </v-btn>
+            <v-btn color="green darken-1" text @click="dialog = false"> Não </v-btn>
+            <v-btn color="green darken-1" text @click="removeService()"> Sim </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -76,6 +57,7 @@ export default {
     pagina: 0,
     keyExclusao: false,
     keys: [],
+    nome: '',
     toggle_multiple: [0, 1],
     headers: [
       { text: 'Nome', value: 'nome' },
@@ -88,14 +70,6 @@ export default {
     ],
   }),
   methods: {
-    doSearch() {
-      const self = this;
-      // const clientesFiltered = this.clientes.filter((el) => {
-      //   return el.nome = el.nome.includes(self.search);
-      // })
-      const newArray = this.clientes.filter(this.nome.includes(self.search));
-      this.clientes = newArray;
-    },
     editClient(key) {
       this.$router.replace(`addedit-cliente/${key}`);
     },
@@ -105,9 +79,10 @@ export default {
     newClient() {
       this.$router.replace('/addedit-cliente/new');
     },
-    confirmRemoveClient(key) {
+    confirmRemoveClient(key, nome) {
       this.dialog = true;
       this.keyExclusao = key;
+      this.nome = nome;
     },
     removeClient() {
       clientesRef.child(this.keyExclusao).remove();
