@@ -1,5 +1,13 @@
 <template>
-  <v-app >
+  <v-app>
+    <v-card max-width="344">
+      <v-card-text>
+        <div>Total de Entradas no mês</div>
+        <p class="display-1 text--primary">
+          R$ {{ totalInvoices }}
+        </p>
+      </v-card-text>
+    </v-card>
     <v-card elevation="24">
       <v-card-title>
         Aniversariantes do mês
@@ -25,7 +33,7 @@
 <script>
 import Vue from 'vue';
 import Storage from 'vue-web-storage';
-import { clientesRef } from '../firebase';
+import { clientesRef, entradasRef } from '../firebase';
 
 Vue.use(Storage);
 
@@ -33,10 +41,12 @@ export default {
   data() {
     return {
       clientes: [],
+      totalInvoices: 0,
       dateRange: {
         from: null,
         to: null,
       },
+      mesAtual: new Date().getMonth() + 1,
       search: '',
       headers: [
         { text: 'Cliente', align: 'start', value: 'nome' },
@@ -48,6 +58,13 @@ export default {
   methods: {
     verifyLogin() {
       this.$emit('logou');
+    },
+    addInvoiceToSum(invoice) {
+      const { pago, dataPagamento, valor } = invoice;
+      const mesPagamento = parseInt(dataPagamento.substring(3, 5), 10);
+      if (!pago && mesPagamento === this.mesAtual) {
+        this.totalInvoices += valor;
+      }
     },
   },
   created() {
@@ -62,6 +79,11 @@ export default {
       if (dataAniversarioMae === data || dataAniversarioCrianca === data) {
         self.clientes.push(snapshot.val());
       }
+    });
+    entradasRef.on('child_added', (snapshot) => {
+      snapshot.val().entradas.forEach((element) => {
+        this.addInvoiceToSum(element);
+      });
     });
   },
 };
