@@ -23,7 +23,7 @@
                     v-model="keyService"
                     :items="servicos"
                     required
-                    @change="buscaPreco(servico)"
+                    @change="buscaPreco(keyService)"
                     item-text="nome" item-value="key"
                     label="Serviço"
                   ></v-autocomplete>
@@ -72,7 +72,6 @@
                       <v-btn class="mb-2 btn-outline-light mr-1" small style="background-color: red" dark @click="removeEntrada(item)">
                         <i class="material-icons mr-1 text-white">close</i>Remover Pagamento
                       </v-btn>
-
                     </v-flex>
                   </v-layout>
                 </v-card>
