@@ -9,7 +9,7 @@
           </v-alert>
         </v-layout>
         <div v-if="!formularioOk">
-          <h2>Formulário Cadastro Espaço Materno</h2>
+          <h2>Formulário Cadastro Instituto Materno</h2>
           <p>Preencha todos os campos com * ele são obrigatórios </p>
           <v-layout row wrap>
             <v-flex xs12 sm5>
