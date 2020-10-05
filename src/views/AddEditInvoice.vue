@@ -225,6 +225,7 @@ export default {
         self.entradas = snapshot.val().entradas;
         self.preco = snapshot.val().preco;
         self.servico = snapshot.val().servico;
+        self.observacao = snapshot.val().observacao;
         if (!snapshot.val().keyService) {
           self.getKeyService();
         } else {
@@ -271,9 +272,7 @@ export default {
     updateInvoice() {
       const self = this;
       entradasRef.child(this.id).update({
-        cliente: self.clienteSelecionado,
         keyCliente: self.keyCliente,
-        servico: self.servicoSelecionado,
         keyService: self.keyService,
         data: self.data,
         preco: self.preco,
