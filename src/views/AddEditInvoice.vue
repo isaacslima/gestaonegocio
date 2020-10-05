@@ -140,7 +140,7 @@ export default {
     }],
     msg: '',
     color: '',
-    tipoPagamento: ['Cartão', 'Dinheiro', 'Cheque', 'Permuta', 'TED/DOC'],
+    tipoPagamento: ['Boleto', 'Cartão', 'Dinheiro', 'Cheque', 'Permuta', 'TED/DOC'],
     money: {
       decimal: ',',
       thousands: '.',
