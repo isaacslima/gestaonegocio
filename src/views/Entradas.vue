@@ -70,8 +70,9 @@ export default {
       { text: 'Nome', value: 'cliente' },
       { text: 'Telefone', value: 'data' },
       { text: 'Email', value: 'preco' },
-      { text: 'Data Parto', value: 'servico' },
-      { text: 'entradas', value: 'entradas' },
+      { text: 'Serviço', value: 'servico' },
+      { text: 'Observação', value: 'observacao' },
+      // { text: 'entradas', value: 'entradas' },
       { text: '', value: 'edicao', sortable: false },
     ],
   }),
@@ -103,6 +104,7 @@ export default {
           data: snapshot.val().data,
           preco: snapshot.val().preco,
           servico: snapshot.val().servico,
+          observacao: snapshot.val().observacao,
           entradas: snapshot.val().entradas,
         };
         self.entradas.push(invoice);

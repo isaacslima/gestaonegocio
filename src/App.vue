@@ -72,7 +72,7 @@ export default {
   data: () => ({
     drawer: false,
     login: false,
-    mini: true,
+    mini: false,
   }),
   updated() {
     this.verificaLogin();

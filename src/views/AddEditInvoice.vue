@@ -34,6 +34,11 @@
                 </v-flex>
               </v-layout>
               <v-layout xs12>
+                <v-flex xs12>
+                  <v-text-field slot="activator" v-model="observacao" label="Observação" ></v-text-field>
+                </v-flex>
+              </v-layout>
+              <v-layout xs12>
                 <v-flex xs12 sm3>
                   <v-menu ref="menuData" :close-on-content-click="false" v-model="menuData" :nudge-right="40" lazy
                     transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
@@ -122,6 +127,7 @@ export default {
     preco: 0.00,
     cliente: '',
     servico: '',
+    observacao: '',
     menu1: false,
     valorTotal: 0.00,
     menuData: false,
@@ -272,6 +278,7 @@ export default {
         data: self.data,
         preco: self.preco,
         dataFinal: self.dataFinal,
+        observacao: self.observacao,
         entradas: self.entradas,
       }).then(() => {
         self.color = 'success';
@@ -300,6 +307,7 @@ export default {
           data: this.data,
           preco: this.preco,
           dataFinal: this.dataFinal,
+          observacao: this.observacao,
           horaLancamento: dados.horaLancamento,
           entradas: this.entradas,
         });
