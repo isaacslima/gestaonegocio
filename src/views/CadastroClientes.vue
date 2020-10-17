@@ -8,7 +8,7 @@
         <v-text-field v-model="search" append-icon="mdi-magnify" label="Pesquisar" single-line hide-details>
         </v-text-field>
       </v-card-title>
-      <v-data-table :headers="headers" :items="clientes" :search="search" sort-by="nome">
+      <v-data-table :headers="headers" :items="clientes" :search="search" sort-by="nome" :page.sync="page">
         <template v-slot:item.interessado="{ item }">
           <i class="material-icons mr-1 bg-success rounded text-white" v-if="item.interessado" >check</i>
           <i class="material-icons mr-1 bg-danger rounded text-white" v-if="!item.interessado">close</i>
@@ -54,7 +54,7 @@ export default {
     clientes: [],
     pagination: {},
     dialog: false,
-    pagina: 0,
+    page: 0,
     keyExclusao: false,
     keys: [],
     nome: '',
@@ -65,10 +65,14 @@ export default {
       { text: 'Email', value: 'email' },
       { text: 'Data Parto', value: 'dataParto' },
       { text: 'Interessado', value: 'interessado' },
-      { text: 'Formulário', value: 'formulario' },
       { text: '', value: 'edicao', sortable: false },
     ],
   }),
+  watch: {
+    page(newPage) {
+      localStorage.page = newPage;
+    },
+  },
   methods: {
     editClient(key) {
       this.$router.replace(`addedit-cliente/${key}`);
@@ -89,6 +93,11 @@ export default {
       this.dialog = false;
     },
   },
+  mounted() {
+    if (localStorage.page) {
+      this.page = localStorage.page;
+    }
+  },
   created() {
     this.verifyLogin();
   },
@@ -100,6 +109,8 @@ export default {
         nome: snapshot.val().nome,
         telefone: snapshot.val().telefone,
         interessado: snapshot.val().interessado,
+        email: snapshot.val().email,
+        dataParto: snapshot.val().dataParto,
         aniversarioMae: snapshot.val().aniversarioMae,
       };
       self.clientes.push(cliente);

@@ -1,5 +1,5 @@
 <template>
-<div class="main-content-container container-fluid px-4">
+<div class="main-content-container container-fluid px-4 ">
   <div class="page-header row no-gutters py-4">
       <div class="col-12 col-sm-9 text-center text-sm-left mb-0">
         <h3 class="page-title">Cadastro Cliente</h3>
@@ -23,37 +23,28 @@
             <v-text-field v-model="instagram" required prepend-inner-icon="alternate_email" label="Instagram">
             </v-text-field>
           </v-flex>
-          <v-flex xs12 sm3>
+          <v-flex xs12 sm6>
             <v-text-field v-model="email" required label="E-mail"></v-text-field>
           </v-flex>
-          <v-flex xs12 sm2>
-            <v-menu ref="menuDataContato" :close-on-content-click="false" v-model="menuDataContato" :nudge-right="40"
-              lazy transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
-              <v-text-field slot="activator" v-model="dataContato" label="Data Contato" persistent-hint readonly
-                prepend-icon="event" @blur="date = parseDate(dataContato)"></v-text-field>
-              <v-date-picker v-model="date" no-title @input="menuDataContato = false"></v-date-picker>
-            </v-menu>
-
-          </v-flex>
-          <v-flex xs12 sm1>
+          <v-flex xs12 sm3>
             <v-text-field v-model="meioContato" required label="Meio Contato"></v-text-field>
           </v-flex>
           <v-flex xs12 sm3>
             <v-text-field v-model="indicacao" required label="Indicação"></v-text-field>
           </v-flex>
-          <v-flex xs12 sm2>
+          <v-flex xs12 sm4>
             <v-menu ref="menuDataParto" :close-on-content-click="false" v-model="menuDataParto" :nudge-right="40" lazy
               transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
-              <v-text-field slot="activator" v-model="dataParto" readonly label="Data Parto / Idade Criança"
+              <v-text-field slot="activator" v-model="dataParto" label="Data Parto / Idade Criança"
                 persistent-hint prepend-icon="event" @blur="dateParto = parseDate(dataParto)"></v-text-field>
               <v-date-picker v-model="dateParto" no-title @input="menuDataParto = false"></v-date-picker>
             </v-menu>
           </v-flex>
-          <v-flex xs12 sm2>
+          <v-flex xs12 sm4>
             <v-text-field v-model="aniversarioMae" label="Data Nascimento Mãe" mask="##/##/####" hint="dd/mm/aaaa"
               persistent-hint></v-text-field>
           </v-flex>
-          <v-flex xs12 sm2>
+          <v-flex xs12 sm4>
             <v-menu ref="menuAniversarioCrianca" :close-on-content-click="false" v-model="menuAniversarioCrianca"
               :nudge-right="40" lazy transition="scale-transition" offset-y full-width max-width="290px"
               min-width="290px">
@@ -70,47 +61,49 @@
             <v-text-field v-model="telefonePai" required mask="(##) # ####-####" label="Telefone Pai"></v-text-field>
           </v-flex>
           <v-layout xs12 sm12>
-            <v-flex xs12 sm1>
+            <v-flex xs12 sm4>
               <v-checkbox v-model="checkContrato" label="Contrato">
               </v-checkbox>
             </v-flex>
-            <v-flex xs12 sm2>
+            <v-flex xs12 sm8>
               <v-menu ref="menuDataContrato" :close-on-content-click="false" v-model="menuDataContrato"
                 :nudge-right="40" lazy transition="scale-transition" offset-y full-width max-width="290px"
                 min-width="290px">
-                <v-text-field slot="activator" v-model="dataContrato" label="Data Contrato" persistent-hint readonly
+                <v-text-field slot="activator" v-model="dataContrato" label="Data Contrato" persistent-hint
                   prepend-icon="event" @blur="dateContrato = parseDate(dataContrato)"></v-text-field>
                 <v-date-picker v-model="dateContrato" no-title @input="menuDataContrato = false"></v-date-picker>
               </v-menu>
             </v-flex>
-            <v-flex xs12 sm1>
+          </v-layout>
+          <v-layout xs12 sm12>
+            <v-flex xs12 sm4>
               <v-checkbox v-model="checkEnxoval" label="Enxoval">
               </v-checkbox>
             </v-flex>
-            <v-flex xs12 sm2>
+            <v-flex xs12 sm8>
               <v-menu ref="menuDataEnxoval" :close-on-content-click="false" v-model="menuDataEnxoval" :nudge-right="40"
                 lazy transition="scale-transition" offset-y full-width max-width="290px" min-width="290px">
-                <v-text-field slot="activator" v-model="dataEnxoval" label="Data Enxoval" persistent-hint readonly
+                <v-text-field slot="activator" v-model="dataEnxoval" label="Data Enxoval" persistent-hint
                   prepend-icon="event" @blur="dateEnxoval = parseDate(dataEnxoval)"></v-text-field>
                 <v-date-picker v-model="dateEnxoval" no-title @input="menuDataEnxoval = false"></v-date-picker>
               </v-menu>
             </v-flex>
-            <v-flex xs12 sm1>
+          </v-layout>
+          <v-layout xs12 sm12>
+            <v-flex xs12 sm4>
               <v-checkbox v-model="checkPortifolio" label="Portifólio">
               </v-checkbox>
             </v-flex>
-            <v-flex xs12 sm2>
+            <v-flex xs12 sm8>
               <v-menu ref="menuDataPortifolio" :close-on-content-click="false" v-model="menuDataPortifolio"
                 :nudge-right="40" lazy transition="scale-transition" offset-y full-width max-width="290px"
                 min-width="290px">
-                <v-text-field slot="activator" v-model="dataPortifolio" label="Data Portifólio" persistent-hint readonly
+                <v-text-field slot="activator" v-model="dataPortifolio" label="Data Portifólio" persistent-hint
                   prepend-icon="event" @blur="datePortifolio = parseDate(dataPortifolio)"></v-text-field>
                 <v-date-picker v-model="datePortifolio" no-title @input="menuDataPortifolio = false"></v-date-picker>
               </v-menu>
-
             </v-flex>
           </v-layout>
-
           <v-flex xs12 sm3>
             <v-text-field v-model="cep" required @change="validaCEP" mask="##.###-###" append-icon="search"
               :rules="obrigatorio" @click:append="validaCEP" label="CEP *"></v-text-field>
@@ -142,7 +135,7 @@
                 </v-text-field>
               </v-flex>
               <v-flex xs12 sm2>
-                <v-text-field v-model="item.dataParto" label="Data Parto" mask="##/##/####" persistent-hint
+                <v-text-field v-model="item.dataNascimento" label="Data Nascimento" mask="##/##/####" persistent-hint
                   hint="DD/MM/AAAA"></v-text-field>
               </v-flex>
               <v-btn style="background-color: blue" small dark @click="addFilho()">Adicionar Filho(a)</v-btn>
@@ -301,7 +294,7 @@ export default {
     },
     validaCEP() {
       if (this.cep) {
-        if (this.cep.length === 8 && !this.logradouro) {
+        if (this.cep.length === 8) {
           const api = `https://viacep.com.br/ws/${this.cep}/json/`;
           axios.get(api).then((response) => {
             this.logradouro = response.data.logradouro;
