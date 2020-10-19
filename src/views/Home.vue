@@ -25,6 +25,7 @@
         :items="clientes"
         :search="search"
         sort-by="nome"
+        :page.sync="page"
       ></v-data-table>
     </v-card>
   </v-app>
@@ -42,6 +43,7 @@ export default {
     return {
       clientes: [],
       totalInvoices: 0,
+      page: 0,
       dateRange: {
         from: null,
         to: null,
@@ -69,6 +71,16 @@ export default {
   },
   created() {
     this.verifyLogin();
+  },
+  watch: {
+    page(newPage) {
+      localStorage.pageHome = newPage;
+    },
+  },
+  mounted() {
+    if (localStorage.pageHome) {
+      this.page = localStorage.pageHome;
+    }
   },
   beforeMount() {
     const self = this;

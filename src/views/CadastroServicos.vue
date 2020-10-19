@@ -13,6 +13,7 @@
         :items="servicos"
         :search="search"
         sort-by="nome"
+        :page.sync="page"
       >
       <template v-slot:item.preco="{ item }">
         <b>R$ {{ item.preco.toFixed(2) }}</b>
@@ -62,6 +63,7 @@ export default {
     servicos: [],
     dialog: false,
     nome: '',
+    page: 0,
     keyExclusao: false,
     keys: [],
     headers: [
@@ -106,6 +108,16 @@ export default {
   },
   created() {
     this.verifyLogin();
+  },
+  watch: {
+    page(newPage) {
+      localStorage.pageService = newPage;
+    },
+  },
+  mounted() {
+    if (localStorage.pageService) {
+      this.page = localStorage.pageService;
+    }
   },
   beforeMount() {
     this.updateListServices();

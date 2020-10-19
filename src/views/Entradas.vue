@@ -9,7 +9,7 @@
         <v-text-field v-model="search" append-icon="mdi-magnify" label="Pesquisar" single-line hide-details>
         </v-text-field>
       </v-card-title>
-      <v-data-table :headers="headers" :items="entradas" :search="search" sort-by="nome">
+      <v-data-table :headers="headers" :items="entradas" :search="search" sort-by="nome" :page.sync="page">
         <template v-slot:item.preco="{ item }">
           <b>R$ {{ item.preco.toFixed(2) }}</b>
         </template>
@@ -63,6 +63,7 @@ export default {
     entradas: [],
     dialog: false,
     nomeCliente: '',
+    page: 0,
     nomeServico: '',
     keyExclusao: false,
     keys: [],
@@ -113,6 +114,16 @@ export default {
   },
   created() {
     this.verifyLogin();
+  },
+  watch: {
+    page(newPage) {
+      localStorage.pageInvoices = newPage;
+    },
+  },
+  mounted() {
+    if (localStorage.pageInvoices) {
+      this.page = localStorage.pageInvoices;
+    }
   },
   beforeMount() {
     this.updateListInvoices();
