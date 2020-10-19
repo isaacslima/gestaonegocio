@@ -70,7 +70,7 @@ export default {
   }),
   watch: {
     page(newPage) {
-      localStorage.page = newPage;
+      localStorage.pageClient = newPage;
     },
   },
   methods: {
@@ -94,8 +94,8 @@ export default {
     },
   },
   mounted() {
-    if (localStorage.page) {
-      this.page = localStorage.page;
+    if (localStorage.pageClient) {
+      this.page = localStorage.pageClient;
     }
   },
   created() {
